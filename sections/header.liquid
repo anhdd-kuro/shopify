@@ -1,3 +1,17 @@
-<header>
-  This is header
-</header>
+{{ title }}
+
+{% schema %}
+  {
+    "name": "Header",
+    "tag": "header",
+    "class": "header",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Titlte"
+      }
+    ]
+  }
+{% endschema %}

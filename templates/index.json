@@ -1,0 +1,11 @@
+{
+  "name": "Home template",
+  "sections": {
+    "header": {
+      "type": "header"
+    }
+  },
+  "order": [
+    "header"
+  ]
+}
