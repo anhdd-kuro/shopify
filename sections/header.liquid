@@ -3,7 +3,6 @@
 </h2>
 
 {% for block in section.blocks %}
-  {{ block.type }}
   {% case block.type %}
     {% when "welcome" %}
     <h3 {{ block.shopify_attributes }}>
