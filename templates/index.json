@@ -4,14 +4,6 @@
       "type": "header",
       "settings": {
         "title": "Hello"
-      },
-      "blocks": {
-        "welcome": {
-          "type": "welcome",
-          "settings": {
-            "heading": "Hello from index.json"
-          }
-        }
       }
     }
   },
