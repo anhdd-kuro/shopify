@@ -1,0 +1,124 @@
+<section class="section-collections">
+  <h2 class="section-title">Newest Collections</h2>
+  <div class="collection-cards">
+    {% for collection in collections limit: settings.num_collections %}
+      <div class="collection-card">
+        <a class="collection-link" href="/movies/{{ collection.id }}"></a>
+        <img
+          class="collection-thumbnail"
+          src="{{ collection.metafields.custom.thumbnail | img_url: 'medium' }}"
+          alt="Thumbnail">
+        <div class="collection-details">
+          <h3 class="collection-title">{{ collection.title }}</h3>
+          {% if collection.description %}
+            <div class="collection-description">{{ collection.description }}</div>
+          {% endif %}
+          <p class="collection-rate">
+            <strong>Rate:</strong>
+            {{ collection.metafields.custom.rate }}
+          </p>
+          <p class="collection-length">
+            <strong>Length:</strong>
+            {{ collection.metafields.custom.length }}
+          </p>
+          <p class="collection-director">
+            <strong>Director:</strong>
+            {{ collection.metafields.custom.director }}
+          </p>
+          {% if collection.metafields.custom.stars %}
+            <p class="collection-stars">
+              <strong>Stars:</strong>
+              {{ collection.metafields.custom.stars | join: ', ' }}
+            </p>
+          {% endif %}
+          {% if collection.metafields.custom.home_page %}
+            <p class="collection-homepage">
+              <strong>Home Page:</strong>
+              <a href="{{ collection.metafields.custom.home_page }}">{{ collection.metafields.custom.home_page }}</a>
+            </p>
+          {% endif %}
+          {% if collection.metafields.custom.genre %}
+            <p class="collection-genre">
+              <strong>Genre:</strong>
+              {{ collection.metafields.custom.genre | join: ', ' }}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% schema %}
+  {
+    "name": "Collections",
+    "settings": [
+      {
+        "type": "range",
+        "label": "Number of collections to display",
+        "id": "num_collections",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 5
+      }
+    ]
+  }
+{% endschema %}
+
+{% style %}
+  .collection-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .collection-card {
+    position: relative;
+    width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .collection-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .collection-details h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .collection-details p {
+    margin: 5px 0;
+  }
+
+  .collection-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.4em;
+    max-height: 4.3em; /* 3 lines x line-height */
+  }
+
+  .collection-details a {
+    color: blue;
+    text-decoration: none;
+  }
+
+  .collection-details a:hover {
+    text-decoration: underline;
+  }
+{% endstyle %}
