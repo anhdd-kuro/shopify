@@ -3,7 +3,7 @@
   <div class="collection-cards">
     {% for collection in collections limit: settings.num_collections %}
       <div class="collection-card">
-        <a class="collection-link" href="/movies/{{ collection.id }}"></a>
+        <a class="collection-link" href="/pages/movies/{{ collection.id }}"></a>
         <img
           class="collection-thumbnail"
           src="{{ collection.metafields.custom.thumbnail | img_url: 'medium' }}"
