@@ -1,0 +1,17 @@
+{
+  "name": "Movies",
+  "template": "page",
+  "content": {
+    "page": {
+      "title": "Movies"
+    }
+  },
+  "sections": {
+    "main": {
+      "type": "movies-in-collection"
+    }
+  },
+  "order": [
+    "movies-in-collection"
+  ]
+}

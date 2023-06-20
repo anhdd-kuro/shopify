@@ -16,9 +16,16 @@
       "settings": {
         "title": "Hello"
       }
+    },
+    "collections": {
+      "type": "collections",
+      "settings": {
+        "num_collections": 5
+      }
     }
   },
   "order": [
-    "header"
+    "header",
+    "collections"
   ]
 }

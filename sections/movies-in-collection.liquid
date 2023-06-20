@@ -1,0 +1,46 @@
+<div class="movies-section">
+  {% for product in collection.products %}
+    <div class="movie-item">
+      <p class="showtimes-start">{{ product.metafields.custom.showtimes_start }}</p>
+      <p class="showtimes-end">~ {{ product.metafields.custom.showtimes_end }}</p>
+      <p class="purchase-link">
+        <a href="{{ product.url }}" class="rounded-button">購入する</a>
+      </p>
+    </div>
+  {% endfor %}
+</div>
+
+{% style %}
+  .movies-section {
+    ;
+    /* Add your section styles here */
+  }
+
+  .movie-item {
+    border: 1px solid #000;
+    padding: 10px;
+    /* Add your item styles here */
+  }
+
+  .movie-item .showtimes-start {
+    font-weight: bold;
+    /* Add your showtimes-start styles here */
+  }
+
+  .movie-item .showtimes-end {
+    ;
+    /* Add your showtimes-end styles here */
+  }
+
+  .movie-item .purchase-link {
+    ;
+    /* Add your purchase-link styles here */
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Showtimes",
+    "limit": 1
+  }
+{% endschema %}
