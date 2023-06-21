@@ -105,9 +105,10 @@
     }
 
     window.addEventListener('beforeunload', function(event) {
-      if (isCheckout) {
+      if (isCheckout || !document.querySelector('.cart-items')) {
         return
       }
+      event.preventDefault();
       console.log(event);
       console.log(event.target);
       clearCart();
