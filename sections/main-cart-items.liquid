@@ -109,8 +109,9 @@
         return
       }
       event.preventDefault();
-      console.log(event)
-      console.log(event.target)
+      console.log(event);
+      console.log(event.target);
+      clearCart();
       event.returnValue = 'Are you sure you want to leave?';
     });
   </script>
