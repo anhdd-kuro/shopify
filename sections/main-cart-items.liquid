@@ -1,7 +1,7 @@
 {% if cart.item_count > 0 %}
   <div x-data="app">
     <div class="cart-items">
-      <template x-for="item in items" :key="item.id">
+      <template x-for="item in items" :key="item.key">
         <div class="cart-item" :data-key="item.key">
           <img
             :src="item.image"
@@ -9,16 +9,18 @@
             class="cart-item-image">
           <div class="cart-item-details">
             <h4 class="cart-item-title" x-text="item.title"></h4>
+            <h3 x-text="`座席 ${item.properties.seatNumber}`" "></h3>
             <div class="cart-item-actions">
               <label :for="`quantity-${item.key}`">Quantity:</label>
-              <input
-                type="number"
-                :id="`quantity-${item.key}`"
-                name="quantity"
-                min="1"
-                x-model="item.quantity"
-                :disabled="isUpdating"
-                @input="updateCartItemQuantity(item.key, item.quantity)">
+              {% comment %} <input
+              type="number"
+              :id="`quantity-${item.key}`"
+              name="quantity"
+              min="1"
+              x-model="item.quantity"
+              :disabled="isUpdating"
+              @input="updateCartItemQuantity(item.key, item.quantity)"> {% endcomment %}
+              <p x-text="item.quantity"></p>
               <button
                 :disabled="isUpdating"
                 @click="updateCartItemQuantity(item.key, 0)"
@@ -45,7 +47,7 @@
     <a
       href="/checkout"
       class="checkout-button"
-      @click="isCheckout = true">Proceed to Checkout</a>
+      @click="isCheckout = true">購入へ</a>
   </div>
 
   <script>
@@ -119,8 +121,8 @@
 
 {% style %}
   .cart-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
   }
 

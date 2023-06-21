@@ -1,30 +1,69 @@
 <h2>{{ product.title }}</h2>
-<div x-data="{ ticketQuantity: 0 }">
-  <label for="ticket-quantity">Number of Tickets:</label>
-  <input
-    type="number"
-    id="ticket-quantity"
-    name="quantity"
-    x-model="ticketQuantity"
-    min="0"
-    required>
+
+<div x-data>
+  <p x-text="`チケット一覧: ${$store.app.tickets?.length}枚`"></p>
   <form
     action="/cart/add"
     method="post"
     @submit="submitForm">
     <div id="variant-selection">
-      <template x-for="ticket in Array.from({ length: ticketQuantity }, (v, i) => i)" :key="ticket">
+      <template x-for="(ticket, index) in $store.app.tickets" :key="ticket">
         <div class="ticket-item">
-          <h4 x-text="`Ticket ${ticket + 1}`"></h4>
+          <h4 x-text="`座席 ${ticket}`"></h4>
           <select :name="`items[][id]`" required>
-            <option value="">Select Variant</option>
+            <option value="">チケットの種類をお選びください</option>
             {% for variant in product.variants %}
               <option value="{{ variant.id }}">{{ variant.title }}</option>
             {% endfor %}
           </select>
+          <input
+            type="hidden"
+            :name="`items[][properties][seatNumber]`"
+            :value="ticket">
         </div>
       </template>
     </div>
-    <button type="submit">Add to Cart</button>
+    <template x-if="$store.app.tickets.length > 0">
+      <button type="submit">次へ</button>
+    </template>
   </form>
+  {% render 'cinema' %}
 </div>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.store('app', {
+      tickets: [],
+      addSeat(seatNumber) {
+        this.tickets.push(seatNumber);
+      },
+      removeSeat(seatNumber) {
+        this.tickets.splice(this.tickets.indexOf(seatNumber), 1);
+      }
+    })
+  })
+
+  const seatMap = document.querySelectorAll('#seatmap > g');
+  seatMap.forEach((seat) => {
+    seat.addEventListener('click', choseSeat);
+  });
+
+  function choseSeat(e) {
+    if (!Alpine) {
+      return
+    }
+
+    const store = Alpine.store('app');
+    const seat = e.currentTarget;
+    const seatNumber = seat.getAttribute('id');
+    const tickets = store.tickets;
+
+    if (tickets.includes(seatNumber)) {
+      seat.classList.remove('selected');
+      store.removeSeat(seatNumber);
+    } else {
+      seat.classList.add('selected');
+      store.addSeat(seatNumber);
+    }
+  }
+</script>
