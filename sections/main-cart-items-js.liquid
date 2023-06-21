@@ -1,0 +1,190 @@
+{% if cart.item_count > 0 %}
+  <div class="cart-items">
+    {% for item in cart.items %}
+      <div class="cart-item" data-key="{{ item.key }}">
+        <img
+          src="{{ item.image | img_url: 'thumb' }}"
+          alt="{{ item.title }}"
+          class="cart-item-image">
+        <div class="cart-item-details">
+          <h4 class="cart-item-title">{{ item.title }}</h4>
+          <div class="cart-item-actions">
+            <label for="quantity-{{ item.key }}">Quantity:</label>
+            <input
+              type="number"
+              id="quantity-{{ item.key }}"
+              name="quantity"
+              min="1"
+              value="{{ item.quantity }}"
+              class="cart-item-quantity">
+            <button class="cart-item-remove">Remove</button>
+          </div>
+          <p class="cart-item-price">{{ item.price | money }}</p>
+          <p class="cart-item-total-price">Total: {{ item.line_price | money }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <p class="cart-total-price">Cart Total: {{ cart.total_price | money }}</p>
+{% else %}
+  <p class="empty-cart">Your cart is empty.</p>
+  <a href="/">Back to home page</a>
+{% endif %}
+
+<script>
+  const quantityInputs = document.querySelectorAll('.cart-item-quantity');
+  const removeButtons = document.querySelectorAll('.cart-item-remove');
+
+  const formatCurrency = (currency) => new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency
+  });
+
+  quantityInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      const itemKey = input.closest('.cart-item').getAttribute('data-key');
+      const quantity = input.value;
+      updateCartItemQuantity(itemKey, quantity);
+    });
+  });
+
+  removeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const itemKey = button.closest('.cart-item').getAttribute('data-key');
+      updateCartItemQuantity(itemKey, 0); // Set quantity to 0 for removal
+    });
+  });
+
+  function updateCartItemQuantity(itemKey, quantity) {
+    quantityInputs.forEach(input => (input.disabled = true));
+    removeButtons.forEach(button => (button.disabled = true));
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(
+        {id: itemKey, quantity: quantity}
+      )
+    }).then((response) => response.json()).then((data) => {
+      console.log(data);
+      quantityInputs.forEach(input => (input.disabled = false));
+      removeButtons.forEach(button => (button.disabled = false));
+      const formatter = formatCurrency(data.currency);
+
+      updateCartTotalPrice(formatter.format(data.total_price / 100));
+      updateItemTotalPrice(itemKey, formatter.format(data.items.find((item) => item.key === itemKey).line_price / 100));
+    }).catch((error) => {
+      console.error(error);
+      quantityInputs.forEach(input => (input.disabled = false));
+      removeButtons.forEach(button => (button.disabled = false));
+    });
+  }
+
+  function updateCartTotalPrice(totalPrice) {
+    const cartTotalPrice = document.querySelector('.cart-total-price');
+    if (cartTotalPrice) {
+      cartTotalPrice.innerHTML = `Cart Total: ${totalPrice}`;
+    }
+  }
+
+  function updateItemTotalPrice(itemKey, totalPrice) {
+    const itemTotalPrice = document.querySelector(`.cart-item[data-key="${itemKey}"] .cart-item-total-price`);
+
+    if (itemTotalPrice) {
+      itemTotalPrice.innerHTML = `Total: ${totalPrice}`;
+    }
+  }
+
+  window.addEventListener('beforeunload', function(event) {
+    event.preventDefault();
+    if (document.querySelector('.cart-item')) {
+      console.log("ページを離れようとしています。");
+      clearCart();
+      return(event.returnValue = "ページをリロードすると、最初から操作し直す必要があります");
+    }
+  });
+
+  function clearCart() {
+    fetch('/cart/clear.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    }).then((response) => response.json()).then((data) => {
+      console.log(data);
+      window.location.reload();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+</script>
+
+
+{% style %}
+  .cart-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .cart-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  .cart-item-details {
+    flex-grow: 1;
+  }
+
+  .cart-item-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .cart-item-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .cart-item-quantity {
+    width: 50px;
+    margin-right: 10px;
+    padding: 5px;
+  }
+
+  .cart-item-remove {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .cart-item-remove:hover {
+    background-color: #999;
+  }
+
+  .cart-item-price {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .empty-cart {
+    text-align: center;
+    color: #888;
+  }
+{% endstyle %}

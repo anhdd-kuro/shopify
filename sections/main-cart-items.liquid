@@ -1,0 +1,183 @@
+{% if cart.item_count > 0 %}
+  <div x-data="app">
+    <div class="cart-items">
+      <template x-for="item in items" :key="item.id">
+        <div class="cart-item" :data-key="item.key">
+          <img
+            :src="item.image"
+            :alt="item.title"
+            class="cart-item-image">
+          <div class="cart-item-details">
+            <h4 class="cart-item-title" x-text="item.title"></h4>
+            <div class="cart-item-actions">
+              <label :for="`quantity-${item.key}`">Quantity:</label>
+              <input
+                type="number"
+                :id="`quantity-${item.key}`"
+                name="quantity"
+                min="1"
+                x-model="item.quantity"
+                :disabled="isUpdating"
+                @input="updateCartItemQuantity(item.key, item.quantity)">
+              <button
+                :disabled="isUpdating"
+                @click="updateCartItemQuantity(item.key, 0)"
+                class="cart-item-remove">
+                Remove
+              </button>
+            </div>
+            <p class="cart-item-price" x-text="JPYFormatter.format(item.final_price / 100)"></p>
+            <p class="cart-item-total-price" x-text="`Total: ${JPYFormatter.format(item.line_price / 100)}`"></p>
+          </div>
+        </div>
+
+      </template>
+    </div>
+    <template x-if="totalPrice">
+      <p class="cart-total-price" x-text="`Cart Total: ${JPYFormatter.format(totalPrice / 100)}`"></p>
+    </template>
+    <template x-if="!items || items.length === 0">
+      <div>
+        <p class="empty-cart">Your cart is empty.</p>
+        <a href="/">Back to home page</a>
+      </div>
+    </template>
+    <a
+      href="/checkout"
+      class="checkout-button"
+      @click="isCheckout = true">Proceed to Checkout</a>
+  </div>
+
+  <script>
+    let isCheckout = false;
+    const formatCurrency = (currency) => new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency
+    });
+    const JPYFormatter = formatCurrency("JPY");
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('app', () => ({
+        items: JSON.parse('{{ cart.items | json }}'),
+        totalPrice: {{cart.total_price}},
+        isUpdating: false,
+        updateCartItemQuantity(itemKey, quantity) {
+          this.isUpdating = true;
+
+          fetch('/cart/change.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(
+              {id: itemKey, quantity: quantity}
+            )
+          }).then((response) => response.json()).then((data) => {
+            console.log(data);
+
+            this.totalPrice = data.total_price;
+
+            this.items = data.items;
+            this.isUpdating = false;
+          }).catch((error) => {
+            console.error(error);
+          });
+        }
+      }))
+    })
+
+    function clearCart() {
+      fetch('/cart/clear.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      }).then((response) => response.json()).then((data) => {
+        console.log(data);
+        window.location.reload();
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
+    window.addEventListener('beforeunload', function(event) {
+      if (isCheckout) {
+        return
+      }
+      event.preventDefault();
+      console.log(event)
+      console.log(event.target)
+      event.returnValue = 'Are you sure you want to leave?';
+    });
+  </script>
+{% else %}
+  <p class="empty-cart">Your cart is empty.</p>
+  <a href="/">Back to home page</a>
+{% endif %}
+
+{% style %}
+  .cart-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .cart-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  .cart-item-details {
+    flex-grow: 1;
+  }
+
+  .cart-item-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .cart-item-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .cart-item-quantity {
+    width: 50px;
+    margin-right: 10px;
+    padding: 5px;
+  }
+
+  .cart-item-remove {
+    background-color: #333;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .cart-item-remove[disabled] {
+    background-color: #999;
+  }
+
+  .cart-item-price {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .empty-cart {
+    text-align: center;
+    color: #888;
+  }
+{% endstyle %}
