@@ -12,15 +12,15 @@
             <h3 x-text="`座席 ${item.properties.seatNumber}`" "></h3>
             <div class="cart-item-actions">
               <label :for="`quantity-${item.key}`">Quantity:</label>
-              {% comment %} <input
+              <input
               type="number"
-              :id="`quantity-${item.key}`"
-              name="quantity"
-              min="1"
-              x-model="item.quantity"
-              :disabled="isUpdating"
-              @input="updateCartItemQuantity(item.key, item.quantity)"> {% endcomment %}
-              <p x-text="item.quantity"></p>
+                :id="`quantity-${item.key}`"
+                name="quantity"
+                min="1"
+                x-model="item.quantity"
+                :disabled="isUpdating"
+                @input="updateCartItemQuantity(item.key, item.quantity)">
+              {% comment %} <p x-text="item.quantity"></p> {% endcomment %}
               <button
                 :disabled="isUpdating"
                 @click="updateCartItemQuantity(item.key, 0)"
@@ -28,8 +28,19 @@
                 Remove
               </button>
             </div>
-            <p class="cart-item-price" x-text="JPYFormatter.format(item.final_price / 100)"></p>
-            <p class="cart-item-total-price" x-text="`Total: ${JPYFormatter.format(item.line_price / 100)}`"></p>
+            <p class="cart-item-price">
+              <template x-if="item.original_price !== item.final_price">
+                <del x-text="JPYFormatter.format(item.original_price / 100)"></del>
+              </template>
+              <span x-text="JPYFormatter.format(item.final_price / 100)"></span>
+            </p>
+            <p class="cart-item-total-price">
+              Total:
+              <template x-if="item.original_line_price !== item.final_line_price">
+                <del x-text="JPYFormatter.format(item.original_line_price / 100)"></del>
+              </template>
+              <span x-text="JPYFormatter.format(item.final_line_price / 100)"></span>
+            </p>
           </div>
         </div>
 
@@ -57,6 +68,9 @@
       currency: currency
     });
     const JPYFormatter = formatCurrency("JPY");
+
+    console.log("adadasdasassad")
+    console.log("aaaaaaa", JSON.parse('{{ cart.items | json }}'))
 
     document.addEventListener('alpine:init', () => {
       Alpine.data('app', () => ({
@@ -104,7 +118,7 @@
       });
     }
 
-    window.addEventListener('beforeunload', function(event) {
+/* window.addEventListener('beforeunload', function(event) {
       if (isCheckout || !document.querySelector('.cart-items')) {
         return
       }
@@ -113,7 +127,7 @@
       console.log(event.target);
       clearCart();
       event.returnValue = 'Are you sure you want to leave?';
-    });
+    }); */
   </script>
 {% else %}
   <p class="empty-cart">Your cart is empty.</p>
@@ -174,9 +188,16 @@
     background-color: #999;
   }
 
-  .cart-item-price {
+  .cart-item-price,
+  .cart-item-total-price {
     font-size: 16px;
     font-weight: bold;
+  }
+
+  :is(.cart-item-price, .cart-item-total-price) del {
+    color: #888;
+    margin-right: 5px;
+    font-style: italic;
   }
 
   .empty-cart {
