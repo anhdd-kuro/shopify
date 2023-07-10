@@ -1,3 +1,13 @@
 {
-  "liquid.format.enable": true
+  "liquid.format.enable": true,
+    "[liquid]": {
+      "editor.defaultFormatter": "Shopify.theme-check-vscode",
+      "editor.formatOnSave": true
+    },
+  "tailwindCSS.includeLanguages": {
+    "liquid": "html",
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["class:\\s*(['\"])([^'\"]+)\\1", "class:\\s*\\[([^\\]]+)\\]"]
+ ],
 }

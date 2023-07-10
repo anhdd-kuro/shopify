@@ -1,137 +1,144 @@
 {% if cart.item_count > 0 %}
-  <div x-data="app">
-    <div class="cart-items">
-      <template x-for="item in items" :key="item.key">
-        <div class="cart-item" :data-key="item.key">
+  <div x-data='app'>
+    <div class='cart-items'>
+      <template x-for='item in items' :key='item.key'>
+        <div class='cart-item' :data-key='item.key'>
           <img
-            :src="item.image"
-            :alt="item.title"
-            class="cart-item-image">
-          <div class="cart-item-details">
-            <h4 class="cart-item-title" x-text="item.title"></h4>
-            <h3 x-text="`座席 ${item.properties.seatNumber}`" "></h3>
-            <div class="cart-item-actions">
-              <label :for="`quantity-${item.key}`">Quantity:</label>
+            :src='item.image'
+            :alt='item.title'
+            class='cart-item-image'
+          >
+          <div class='cart-item-details'>
+            <h4 class='cart-item-title' x-text='item.title'></h4>
+            <h3 x-text='`座席 ${item.properties.seatNumber}`'></h3>
+            <div class='cart-item-actions'>
+              <label :for='`quantity-${item.key}`'>Quantity:</label>
               <input
-              type="number"
-                :id="`quantity-${item.key}`"
-                name="quantity"
-                min="1"
-                x-model="item.quantity"
-                :disabled="isUpdating"
-                @input="updateCartItemQuantity(item.key, item.quantity)">
+                type='number'
+                :id='`quantity-${item.key}`'
+                name='quantity'
+                min='1'
+                x-model='item.quantity'
+                :disabled='isUpdating'
+                @input='updateCartItemQuantity(item.key, item.quantity)'
+              >
               {% comment %} <p x-text="item.quantity"></p> {% endcomment %}
               <button
-                :disabled="isUpdating"
-                @click="updateCartItemQuantity(item.key, 0)"
-                class="cart-item-remove">
+                :disabled='isUpdating'
+                @click='updateCartItemQuantity(item.key, 0)'
+                class='cart-item-remove'
+              >
                 Remove
               </button>
             </div>
-            <p class="cart-item-price">
-              <template x-if="item.original_price !== item.final_price">
-                <del x-text="JPYFormatter.format(item.original_price / 100)"></del>
+            <p class='cart-item-price'>
+              <template x-if='item.original_price !== item.final_price'>
+                <del x-text='JPYFormatter.format(item.original_price / 100)'></del>
               </template>
-              <span x-text="JPYFormatter.format(item.final_price / 100)"></span>
+              <span x-text='JPYFormatter.format(item.final_price / 100)'></span>
             </p>
-            <p class="cart-item-total-price">
+            <p class='cart-item-total-price'>
               Total:
-              <template x-if="item.original_line_price !== item.final_line_price">
-                <del x-text="JPYFormatter.format(item.original_line_price / 100)"></del>
+              <template x-if='item.original_line_price !== item.final_line_price'>
+                <del x-text='JPYFormatter.format(item.original_line_price / 100)'></del>
               </template>
-              <span x-text="JPYFormatter.format(item.final_line_price / 100)"></span>
+              <span x-text='JPYFormatter.format(item.final_line_price / 100)'></span>
             </p>
           </div>
         </div>
-
       </template>
     </div>
-    <template x-if="totalPrice">
-      <p class="cart-total-price" x-text="`Cart Total: ${JPYFormatter.format(totalPrice / 100)}`"></p>
+    <template x-if='totalPrice'>
+      <p
+        class='cart-total-price'
+        x-text='`Cart Total: ${JPYFormatter.format(totalPrice / 100)}`'
+      ></p>
     </template>
-    <template x-if="!items || items.length === 0">
+    <template x-if='!items || items.length === 0'>
       <div>
-        <p class="empty-cart">Your cart is empty.</p>
-        <a href="/">Back to home page</a>
+        <p class='empty-cart'>Your cart is empty.</p>
+        <a href='/'>Back to home page</a>
       </div>
     </template>
     <a
-      href="/checkout"
-      class="checkout-button"
-      @click="isCheckout = true">購入へ</a>
+      href='/checkout'
+      class='checkout-button'
+      @click='isCheckout = true'
+      >購入へ</a
+    >
   </div>
 
   <script>
-    let isCheckout = false;
-    const formatCurrency = (currency) => new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    });
-    const JPYFormatter = formatCurrency("JPY");
+        let isCheckout = false;
+        const formatCurrency = (currency) => new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: currency
+        });
+        const JPYFormatter = formatCurrency("JPY");
 
-    console.log("adadasdasassad")
-    console.log("aaaaaaa", JSON.parse('{{ cart.items | json }}'))
+        console.log("adadasdasassad")
+        console.log("aaaaaaa", JSON.parse('{{ cart.items | json }}'))
 
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('app', () => ({
-        items: JSON.parse('{{ cart.items | json }}'),
-        totalPrice: {{cart.total_price}},
-        isUpdating: false,
-        updateCartItemQuantity(itemKey, quantity) {
-          this.isUpdating = true;
+        document.addEventListener('alpine:init', () => {
+          Alpine.data('app', () => ({
+            items: JSON.parse('{{ cart.items | json }}'),
+            totalPrice: {{cart.total_price}},
+            isUpdating: false,
+            updateCartItemQuantity(itemKey, quantity) {
+              this.isUpdating = true;
 
-          fetch('/cart/change.js', {
+              fetch('/cart/change.js', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(
+                  {id: itemKey, quantity: quantity}
+                )
+              }).then((response) => response.json()).then((data) => {
+                console.log(data);
+
+                this.totalPrice = data.total_price;
+
+                this.items = data.items;
+                this.isUpdating = false;
+              }).catch((error) => {
+                console.error(error);
+              });
+            }
+          }))
+        })
+
+        function clearCart() {
+          fetch('/cart/clear.js', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify(
-              {id: itemKey, quantity: quantity}
-            )
+            }
           }).then((response) => response.json()).then((data) => {
             console.log(data);
-
-            this.totalPrice = data.total_price;
-
-            this.items = data.items;
-            this.isUpdating = false;
+            window.location.reload();
           }).catch((error) => {
             console.error(error);
           });
         }
-      }))
-    })
 
-    function clearCart() {
-      fetch('/cart/clear.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      }).then((response) => response.json()).then((data) => {
-        console.log(data);
-        window.location.reload();
-      }).catch((error) => {
-        console.error(error);
-      });
-    }
-
-/* window.addEventListener('beforeunload', function(event) {
-      if (isCheckout || !document.querySelector('.cart-items')) {
-        return
-      }
-      event.preventDefault();
-      console.log(event);
-      console.log(event.target);
-      clearCart();
-      event.returnValue = 'Are you sure you want to leave?';
-    }); */
+    /* window.addEventListener('beforeunload', function(event) {
+          if (isCheckout || !document.querySelector('.cart-items')) {
+            return
+          }
+          event.preventDefault();
+          console.log(event);
+          console.log(event.target);
+          clearCart();
+          event.returnValue = 'Are you sure you want to leave?';
+        }); */
   </script>
 {% else %}
-  <p class="empty-cart">Your cart is empty.</p>
-  <a href="/">Back to home page</a>
+  <p class='empty-cart'>Your cart is empty.</p>
+  <a href='/'>Back to home page</a>
 {% endif %}
 
 {% style %}
