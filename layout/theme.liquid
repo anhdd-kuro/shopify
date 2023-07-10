@@ -13,6 +13,7 @@
     {{ content_for_header }}
 
     {{ 'index.css' | asset_url | stylesheet_tag }}
+    {{ "main.css" | asset_url | stylesheet_tag }}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 

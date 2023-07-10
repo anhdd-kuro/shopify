@@ -22,9 +22,14 @@
       "settings": {
         "num_collections": 5
       }
+    },
+    "test": {
+      "type": "test",
+      "settings": {}
     }
   },
   "order": [
+    "test",
     "header",
     "collections"
   ]

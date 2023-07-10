@@ -1,0 +1,51 @@
+<div x-data="section">
+  {% capture button_slot %}
+    <span>
+      Count++
+    </span>
+  {% endcapture %}
+  {% render 'atoms.button', slot: button_slot, class: 'text-red-500', onClick: 'onTestButtonClick' %}
+  {% render 'atoms.button', slot: button_slot, class: 'text-blue-500', onClick: 'onTestButtonClick' %}
+  <p x-text="`${count}`"></p>
+
+  <ul class="grid grid-cols-2 gap-4 w-[1200px] mx-auto">
+    {% for collection in collections limit: 10 %}
+      <li class="h-full">
+        {% render 'molecules.schedule-list', collection_: collection %}
+      </li>
+    {% endfor %}
+
+    <li>
+      <div class="main_block">
+        <h1 class="movie_title">
+          <a href="https://kbc-cinema.com/movie/12391.html" class="animate-highlight">青いカフタンの仕立て屋</a>
+        </h1>
+        <ul class="list_timeschedule">
+          <li class="on">
+            <span class="start">09:20</span>～11:25
+            <div class="note"></div>
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li class="sp-only"></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<script async>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('section', () => ({
+      count: 0,
+      onTestButtonClick() {
+        // alert('test');
+        this.count++
+      },
+    }));
+  });
+</script>
