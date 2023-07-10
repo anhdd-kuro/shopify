@@ -9,10 +9,11 @@
     class: 'text-red-500',
     onClick: 'onTestButtonClick'
   %}
-  {% render 'atoms.button',
+  {%
+    render 'atoms.button',
     slot: button_slot,
     class: 'text-blue-500',
-    onClick: 'onTestButtonClick'
+    onClick: 'onTestButtonClick',
   %}
   <p x-text="`${count}`"></p>
 
