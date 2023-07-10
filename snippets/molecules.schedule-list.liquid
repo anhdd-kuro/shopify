@@ -1,10 +1,10 @@
-<div class='flex h-full flex-col divide-y border'>
-  <h3 class='p-4 text-xl font-semibold'>
+<div class="flex h-full flex-col divide-y border">
+  <h3 class="p-4 text-xl font-semibold">
     {{ collection_.title }}
   </h3>
-  <ul class='-mb-[1px] -mr-[1px] grid h-full grid-cols-[repeat(auto-fit,minmax(100px,1fr))] grid-rows-[repeat(2,minmax(80px,1fr))] text-center'>
+  <ul class="-mb-[1px] -mr-[1px] grid h-full grid-cols-[repeat(auto-fit,minmax(100px,1fr))] grid-rows-[repeat(2,minmax(80px,1fr))] text-center">
     {% for index in (0..6) %}
-      <li class='flex flex-col gap-2 border-b border-r px-4 py-2 text-sm'>
+      <li class="flex flex-col gap-2 border-b border-r px-4 py-2 text-sm">
         {% assign product = collection_.products[index] %}
         {% if product %}
           {% assign product_showtimes_start = product.metafields.custom.showtimes_start
@@ -20,8 +20,8 @@
           %}
 
           <a
-            href='{{ product.url }}'
-            class='whitespace-nowrap rounded-full bg-black py-1 text-xs font-bold text-white'
+            href="{{ product.url }}"
+            class="whitespace-nowrap rounded-full bg-black py-1 text-xs font-bold text-white"
           >
             {% case time.status %}
               {% when '1' %}

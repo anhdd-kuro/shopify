@@ -5,7 +5,7 @@
       "editor.formatOnSave": true
     },
   "tailwindCSS.includeLanguages": {
-    "liquid": "html",
+    // "liquid": "html",
   },
   "tailwindCSS.experimental.classRegex": [
     ["class:\\s*(['\"])([^'\"]+)\\1", "class:\\s*\\[([^\\]]+)\\]"]

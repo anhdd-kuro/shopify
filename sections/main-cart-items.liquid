@@ -1,69 +1,69 @@
 {% if cart.item_count > 0 %}
-  <div x-data='app'>
-    <div class='cart-items'>
-      <template x-for='item in items' :key='item.key'>
-        <div class='cart-item' :data-key='item.key'>
+  <div x-data="app">
+    <div class="cart-items">
+      <template x-for="item in items" :key="item.key">
+        <div class="cart-item" :data-key="item.key">
           <img
-            :src='item.image'
-            :alt='item.title'
-            class='cart-item-image'
+            :src="item.image"
+            :alt="item.title"
+            class="cart-item-image"
           >
-          <div class='cart-item-details'>
-            <h4 class='cart-item-title' x-text='item.title'></h4>
-            <h3 x-text='`座席 ${item.properties.seatNumber}`'></h3>
-            <div class='cart-item-actions'>
-              <label :for='`quantity-${item.key}`'>Quantity:</label>
+          <div class="cart-item-details">
+            <h4 class="cart-item-title" x-text="item.title"></h4>
+            <h3 x-text="`座席 ${item.properties.seatNumber}`"></h3>
+            <div class="cart-item-actions">
+              <label :for="`quantity-${item.key}`">Quantity:</label>
               <input
-                type='number'
-                :id='`quantity-${item.key}`'
-                name='quantity'
-                min='1'
-                x-model='item.quantity'
-                :disabled='isUpdating'
-                @input='updateCartItemQuantity(item.key, item.quantity)'
+                type="number"
+                :id="`quantity-${item.key}`"
+                name="quantity"
+                min="1"
+                x-model="item.quantity"
+                :disabled="isUpdating"
+                @input="updateCartItemQuantity(item.key, item.quantity)"
               >
               {% comment %} <p x-text="item.quantity"></p> {% endcomment %}
               <button
-                :disabled='isUpdating'
-                @click='updateCartItemQuantity(item.key, 0)'
-                class='cart-item-remove'
+                :disabled="isUpdating"
+                @click="updateCartItemQuantity(item.key, 0)"
+                class="cart-item-remove"
               >
                 Remove
               </button>
             </div>
-            <p class='cart-item-price'>
-              <template x-if='item.original_price !== item.final_price'>
-                <del x-text='JPYFormatter.format(item.original_price / 100)'></del>
+            <p class="cart-item-price">
+              <template x-if="item.original_price !== item.final_price">
+                <del x-text="JPYFormatter.format(item.original_price / 100)"></del>
               </template>
-              <span x-text='JPYFormatter.format(item.final_price / 100)'></span>
+              <span x-text="JPYFormatter.format(item.final_price / 100)"></span>
             </p>
-            <p class='cart-item-total-price'>
+            <p class="cart-item-total-price">
               Total:
-              <template x-if='item.original_line_price !== item.final_line_price'>
-                <del x-text='JPYFormatter.format(item.original_line_price / 100)'></del>
+              <template x-if="item.original_line_price !== item.final_line_price">
+                <del x-text="JPYFormatter.format(item.original_line_price / 100)"></del>
               </template>
-              <span x-text='JPYFormatter.format(item.final_line_price / 100)'></span>
+              <span x-text="JPYFormatter.format(item.final_line_price / 100)"></span>
             </p>
           </div>
         </div>
       </template>
     </div>
-    <template x-if='totalPrice'>
+    <template x-if="totalPrice">
       <p
-        class='cart-total-price'
-        x-text='`Cart Total: ${JPYFormatter.format(totalPrice / 100)}`'
+        class="cart-total-price"
+        x-text="`Cart Total: ${JPYFormatter.format(totalPrice / 100)}`"
       ></p>
     </template>
-    <template x-if='!items || items.length === 0'>
+    <template x-if="!items || items.length === 0">
       <div>
-        <p class='empty-cart'>Your cart is empty.</p>
-        <a href='/'>Back to home page</a>
+        <p class="empty-cart">Your cart is empty.</p>
+        <a href="/">Back to home page</a>
       </div>
     </template>
     <a
-      href='/checkout'
-      class='checkout-button'
-      @click='isCheckout = true'
+      href="/checkout"
+      class="checkout-button"
+      @click="isCheckout = true"
       >購入へ</a
     >
   </div>
@@ -137,8 +137,8 @@
         }); */
   </script>
 {% else %}
-  <p class='empty-cart'>Your cart is empty.</p>
-  <a href='/'>Back to home page</a>
+  <p class="empty-cart">Your cart is empty.</p>
+  <a href="/">Back to home page</a>
 {% endif %}
 
 {% style %}
