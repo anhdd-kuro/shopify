@@ -1,3 +1,9 @@
 {
-  "recommendations": ["shopify.theme-check-vscode"]
+  "recommendations": [
+    "shopify.theme-check-vscode",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "adrianwilczynski.alpine-js-intellisense",
+    "sperovita.alpinejs-syntax-highlight"
+  ]
 }
