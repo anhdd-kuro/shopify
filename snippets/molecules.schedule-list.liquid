@@ -1,0 +1,33 @@
+<div class="flex flex-col border divide-y h-full">
+  <h3 class="text-xl font-semibold p-4">
+    {{ collection_.title }}
+  </h3>
+  <ul class="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] text-center h-full grid-rows-[repeat(2,minmax(80px,1fr))] -mb-[1px] -mr-[1px]">
+    {% for index in (0..6) %}
+      <li class="flex flex-col gap-2 px-4 text-sm py-2 border-r border-b">
+        {% assign product = collection_.products[index] %}
+        {% if product %}
+          {% assign product_showtimes_start = product.metafields.custom.showtimes_start | date: '%H:%M' %}
+          {% assign product_showtimes_end = product.metafields.custom.showtimes_end | date: '%H:%M' %}
+
+          {% render 'atoms.time-schedule', start: product_showtimes_start, end: product_showtimes_end %}
+
+          <a
+            href="{{ product.url }}"
+            class="rounded-full bg-black text-white font-bold py-1 text-xs whitespace-nowrap"
+          >
+            {% case time.status %}
+              {% when '1' %}
+                △
+              {% when '2' %}
+                ⚪︎
+              {% else %}
+                ◎
+            {% endcase %}
+            販売中
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
