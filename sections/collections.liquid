@@ -1,47 +1,47 @@
-<section class='section-collections'>
-  <h2 class='section-title'>上映中</h2>
-  <div class='collection-cards'>
+<section class="section-collections">
+  <h2 class="section-title">上映中</h2>
+  <div class="collection-cards">
     {% for collection in collections limit: settings.num_collections %}
-      <div class='collection-card'>
-        <a class='collection-link' href='/collections/{{collection.handle}}/'></a>
+      <div class="collection-card">
+        <a class="collection-link" href="/collections/{{collection.handle}}/"></a>
         <img
-          class='collection-thumbnail'
-          src='{{ collection.metafields.custom.thumbnail | img_url: 'medium' }}'
-          alt='Thumbnail'
+          class="collection-thumbnail"
+          src="{{ collection.metafields.custom.thumbnail | img_url: 'medium' }}"
+          alt="Thumbnail"
         >
-        <div class='collection-details'>
-          <h3 class='collection-title'>{{ collection.title }}</h3>
+        <div class="collection-details">
+          <h3 class="collection-title">{{ collection.title }}</h3>
           {% if collection.description %}
-            <div class='collection-description'>{{ collection.description }}</div>
+            <div class="collection-description">{{ collection.description }}</div>
           {% endif %}
-          <p class='collection-rate'>
+          <p class="collection-rate">
             <strong>Rate:</strong>
             {{ collection.metafields.custom.rate }}
           </p>
-          <p class='collection-length'>
+          <p class="collection-length">
             <strong>Length:</strong>
             {{ collection.metafields.custom.length }}
           </p>
-          <p class='collection-director'>
+          <p class="collection-director">
             <strong>Director:</strong>
             {{ collection.metafields.custom.director }}
           </p>
           {% if collection.metafields.custom.stars %}
-            <p class='collection-stars'>
+            <p class="collection-stars">
               <strong>Stars:</strong>
               {{ collection.metafields.custom.stars | join: ', ' }}
             </p>
           {% endif %}
           {% if collection.metafields.custom.home_page %}
-            <p class='collection-homepage'>
+            <p class="collection-homepage">
               <strong>Home Page:</strong>
-              <a href='{{ collection.metafields.custom.home_page }}'>
+              <a href="{{ collection.metafields.custom.home_page }}">
                 {{- collection.metafields.custom.home_page -}}
               </a>
             </p>
           {% endif %}
           {% if collection.metafields.custom.genre %}
-            <p class='collection-genre'>
+            <p class="collection-genre">
               <strong>Genre:</strong>
               {{ collection.metafields.custom.genre | join: ', ' }}
             </p>

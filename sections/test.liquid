@@ -1,4 +1,4 @@
-<div x-data='section'>
+<div x-data="section">
   {% capture button_slot %}
     <span>
       Count++
@@ -14,26 +14,26 @@
     class: 'text-blue-500',
     onClick: 'onTestButtonClick'
   %}
-  <p x-text='`${count}`'></p>
+  <p x-text="`${count}`"></p>
 
-  <ul class='mx-auto grid w-[1200px] grid-cols-2 gap-4'>
+  <ul class="mx-auto grid w-[1200px] grid-cols-2 gap-4">
     {% for collection in collections limit: 10 %}
-      <li class='h-full'>
+      <li class="h-full">
         {% render 'molecules.schedule-list', collection_: collection %}
       </li>
     {% endfor %}
 
     <li>
-      <div class='main_block'>
-        <h1 class='movie_title'>
-          <a href='https://kbc-cinema.com/movie/12391.html' class='animate-highlight'
+      <div class="main_block">
+        <h1 class="movie_title">
+          <a href="https://kbc-cinema.com/movie/12391.html" class="animate-highlight"
             >青いカフタンの仕立て屋</a
           >
         </h1>
-        <ul class='list_timeschedule'>
-          <li class='on'>
-            <span class='start'>09:20</span>～11:25
-            <div class='note'></div>
+        <ul class="list_timeschedule">
+          <li class="on">
+            <span class="start">09:20</span>～11:25
+            <div class="note"></div>
           </li>
           <li></li>
           <li></li>
@@ -41,7 +41,7 @@
           <li></li>
           <li></li>
           <li></li>
-          <li class='sp-only'></li>
+          <li class="sp-only"></li>
         </ul>
       </div>
     </li>

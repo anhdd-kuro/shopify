@@ -1,36 +1,36 @@
 {% if cart.item_count > 0 %}
-  <div class='cart-items'>
+  <div class="cart-items">
     {% for item in cart.items %}
-      <div class='cart-item' data-key='{{ item.key }}'>
+      <div class="cart-item" data-key="{{ item.key }}">
         <img
-          src='{{ item.image | img_url: 'thumb' }}'
-          alt='{{ item.title }}'
-          class='cart-item-image'
+          src="{{ item.image | img_url: 'thumb' }}"
+          alt="{{ item.title }}"
+          class="cart-item-image"
         >
-        <div class='cart-item-details'>
-          <h4 class='cart-item-title'>{{ item.title }}</h4>
-          <div class='cart-item-actions'>
-            <label for='quantity-{{ item.key }}'>Quantity:</label>
+        <div class="cart-item-details">
+          <h4 class="cart-item-title">{{ item.title }}</h4>
+          <div class="cart-item-actions">
+            <label for="quantity-{{ item.key }}">Quantity:</label>
             <input
-              type='number'
-              id='quantity-{{ item.key }}'
-              name='quantity'
-              min='1'
-              value='{{ item.quantity }}'
-              class='cart-item-quantity'
+              type="number"
+              id="quantity-{{ item.key }}"
+              name="quantity"
+              min="1"
+              value="{{ item.quantity }}"
+              class="cart-item-quantity"
             >
-            <button class='cart-item-remove'>Remove</button>
+            <button class="cart-item-remove">Remove</button>
           </div>
-          <p class='cart-item-price'>{{ item.price | money }}</p>
-          <p class='cart-item-total-price'>Total: {{ item.line_price | money }}</p>
+          <p class="cart-item-price">{{ item.price | money }}</p>
+          <p class="cart-item-total-price">Total: {{ item.line_price | money }}</p>
         </div>
       </div>
     {% endfor %}
   </div>
-  <p class='cart-total-price'>Cart Total: {{ cart.total_price | money }}</p>
+  <p class="cart-total-price">Cart Total: {{ cart.total_price | money }}</p>
 {% else %}
-  <p class='empty-cart'>Your cart is empty.</p>
-  <a href='/'>Back to home page</a>
+  <p class="empty-cart">Your cart is empty.</p>
+  <a href="/">Back to home page</a>
 {% endif %}
 
 <script>
