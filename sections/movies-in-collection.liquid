@@ -1,25 +1,38 @@
-{% assign showtimes_starts = collection.products | map: 'metafields' | map: 'custom' | map: 'showtimes_start' %}
-{% assign showtimes_starts_uniq = "" %}
+{% assign showtimes_starts = collection.products
+  | map: 'metafields'
+  | map: 'custom'
+  | map: 'showtimes_start'
+%}
+{% assign showtimes_starts_uniq = '' %}
 
 {% for showtimes_start in showtimes_starts %}
-  {% assign formated_showtimes_start = showtimes_start | date: "%Y-%m-%d" %}
-  {% assign showtimes_starts_uniq = showtimes_starts_uniq | append: formated_showtimes_start | append: "," %}
+  {% assign formated_showtimes_start = showtimes_start | date: '%Y-%m-%d' %}
+  {% assign showtimes_starts_uniq = showtimes_starts_uniq
+    | append: formated_showtimes_start
+    | append: ','
+  %}
 {% endfor %}
-{% assign showtimes_starts_uniq = showtimes_starts_uniq | split: "," | uniq %}
+{% assign showtimes_starts_uniq = showtimes_starts_uniq | split: ',' | uniq %}
 
 <h2>{{ collection.title }}</h2>
-<div class="movies-section">
+<div class='movies-section'>
   {% for showtimes_start in showtimes_starts_uniq %}
-    <div class="movies-group-by-date">
+    <div class='movies-group-by-date'>
       <h2>{{ showtimes_start }}</h2>
       {% for product in collection.products %}
-        {% assign product_showtimes_start = product.metafields.custom.showtimes_start | date: "%Y-%m-%d" %}
+        {% assign product_showtimes_start = product.metafields.custom.showtimes_start
+          | date: '%Y-%m-%d'
+        %}
         {% if product_showtimes_start == showtimes_start %}
-          <div class="movie-item">
-            <p class="showtimes-start">{{ product.metafields.custom.showtimes_start | date: "%Y-%m-%d %H:%M" }}</p>
-            <p class="showtimes-end">~ {{ product.metafields.custom.showtimes_end | date: "%Y-%m-%d %H:%M" }}</p>
-            <p class="purchase-link">
-              <a href="{{ product.url }}" class="rounded-button">購入する</a>
+          <div class='movie-item'>
+            <p class='showtimes-start'>
+              {{ product.metafields.custom.showtimes_start | date: '%Y-%m-%d %H:%M' }}
+            </p>
+            <p class='showtimes-end'>
+              ~ {{ product.metafields.custom.showtimes_end | date: '%Y-%m-%d %H:%M' }}
+            </p>
+            <p class='purchase-link'>
+              <a href='{{ product.url }}' class='rounded-button'>購入する</a>
             </p>
           </div>
         {% endif %}
@@ -48,12 +61,10 @@
   }
 
   .movie-item .showtimes-end {
-    ;
     /* Add your showtimes-end styles here */
   }
 
   .movie-item .purchase-link {
-    ;
     /* Add your purchase-link styles here */
   }
 
@@ -69,8 +80,8 @@
 {% endstyle %}
 
 {% schema %}
-  {
-    "name": "Showtimes",
-    "limit": 1
-  }
+{
+  "name": "Showtimes",
+  "limit": 1
+}
 {% endschema %}

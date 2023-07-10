@@ -1,40 +1,41 @@
 {% schema %}
-  {
-    "name": "Header",
-    "tag": "header",
-    "class": "header",
-    "limit": 1,
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Titlte",
-        "default": "Welcome to our title"
-      }
-    ],
-    "blocks": [
-      {
-        "name": "Block",
-        "type": "welcome",
-        "settings": [
-          {
-            "type": "text",
-            "id": "heading",
-            "default": "Welcome to our store",
-            "label": "Heading"
-          }
-        ]
-      }, {
-        "name": "Slide",
-        "type": "slide",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image"
-          }
-        ]
-      }
-    ]
-  }
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "header",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titlte",
+      "default": "Welcome to our title"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "welcome",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Welcome to our store",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "name": "Slide",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}

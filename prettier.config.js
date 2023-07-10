@@ -7,7 +7,7 @@ module.exports = {
   embeddedSingleQuote: true,
   printWidth: 100,
   plugins: [
+    require('@shopify/prettier-plugin-liquid'),
     require('prettier-plugin-tailwindcss'),
-    require('@shopify/prettier-plugin-liquid')
   ],
 }
