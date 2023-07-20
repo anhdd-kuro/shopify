@@ -8,6 +8,9 @@
       {{ article.title -}}
     </a>
   </h2>
+  {%- if section.settings.blog_show_author -%}
+    <span> By {{ article.author }} </span>
+  {%- endif -%}
   <div>公開日：{{ article.published_at | time_tag: format: 'date' }}</div>
   <div>
     タグ：
