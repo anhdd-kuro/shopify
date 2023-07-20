@@ -1,0 +1,67 @@
+{% comment %}
+  {
+    /**
+    * 追加クラス
+    */
+    class: string
+
+    /**
+    * リンク
+    */
+    href: string
+
+  	/**
+    * button type
+    */
+    type: string
+
+  	/**
+    * colorの種類 ('white')
+    */
+    colorType: string
+
+    /**
+    * slot
+    */
+    slot: html.element
+
+  /**
+    * click
+    */
+  onClick: event
+  }
+{% endcomment %}
+
+{% # buttonの色 %}
+{% liquid
+  case colorType
+    when 'white'
+      assign colorClass_ = 'bg-white text-black'
+    else
+      assign colorClass_ = 'bg-black text-white'
+  endcase
+%}
+
+{% # button type %}
+{% liquid
+  if type
+    assign type_ = type
+  else
+    assign type_ = 'button'
+  endif
+%}
+{% assign commonClass_ = 'd-flex justify-center items-center hover:opacity-[.7] transition duration-[200ms]' %}
+
+{% if href %}
+  <a href="{{href}}" class="{{ commonClass_ }} {{ colorClass_ }} {{ class }} ">
+    {{ slot }}
+  </a>
+{% else %}
+  <button
+    type="{{ type_ }}"
+    class="{{ commonClass_ }} {{ colorClass_ }} {{ class }}"
+    @click="{{ onClick }}"
+  >
+    {{ slot }}
+  </button>
+{% endif %}

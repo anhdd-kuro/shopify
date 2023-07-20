@@ -1,0 +1,15 @@
+{% # 映画情報 %}
+<div>
+  <p>{{ collection.metafields.custom.publication_end_date | date: '%m月%d日%a' }}</p>
+  <p>
+    {% if collection.metafields.custom.with_dubbing_subtitles %}当館では全回字幕上映です{% endif %}
+  </p>
+  <h2>{{ collection.title }}</h2>
+  <p>{{ collection.metafields.custom.country_of_production }}</p>
+  <p>原題：{{ collection.metafields.custom.original_title }}</p>
+  <p>{{ collection.metafields.custom.length | append: '分' }}</p>
+  <p>監督：{{ collection.metafields.custom.director }}</p>
+  <p>出演：{{ collection.metafields.custom.stars }}</p>
+  <a href="{{ collection.metafields.custom.home_page }}">公式HP</a>
+  <p>{{ collection.description }}</p>
+</div>

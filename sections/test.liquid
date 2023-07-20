@@ -4,11 +4,7 @@
       Count++
     </span>
   {% endcapture %}
-  {% render 'atoms.button',
-    slot: button_slot,
-    class: 'text-red-500',
-    onClick: 'onTestButtonClick'
-  %}
+  {% render 'atoms.button', slot: button_slot, class: 'text-red-500', onClick: 'onTestButtonClick' %}
   {%
     render 'atoms.button',
     slot: button_slot,
@@ -27,9 +23,7 @@
     <li>
       <div class="main_block">
         <h1 class="movie_title">
-          <a href="https://kbc-cinema.com/movie/12391.html" class="animate-highlight"
-            >青いカフタンの仕立て屋</a
-          >
+          <a href="https://kbc-cinema.com/movie/12391.html" class="animate-highlight">青いカフタンの仕立て屋</a>
         </h1>
         <ul class="list_timeschedule">
           <li class="on">

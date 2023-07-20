@@ -7,17 +7,10 @@
       <li class="flex flex-col gap-2 border-b border-r px-4 py-2 text-sm">
         {% assign product = collection_.products[index] %}
         {% if product %}
-          {% assign product_showtimes_start = product.metafields.custom.showtimes_start
-            | date: '%H:%M'
-          %}
-          {% assign product_showtimes_end = product.metafields.custom.showtimes_end
-            | date: '%H:%M'
-          %}
+          {% assign product_showtimes_start = product.metafields.custom.showtimes_start | date: '%H:%M' %}
+          {% assign product_showtimes_end = product.metafields.custom.showtimes_end | date: '%H:%M' %}
 
-          {% render 'atoms.time-schedule',
-            start: product_showtimes_start,
-            end: product_showtimes_end
-          %}
+          {% render 'atoms.time-schedule', start: product_showtimes_start, end: product_showtimes_end %}
 
           <a
             href="{{ product.url }}"

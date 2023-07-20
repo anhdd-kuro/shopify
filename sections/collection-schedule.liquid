@@ -1,0 +1,44 @@
+{% liquid
+  assign showtimes_starts_ = collection.products | map: 'metafields' | map: 'custom' | map: 'showtimes_start' | join: ','
+  assign showtimes_starts_sort_ = showtimes_starts_ | split: ',' | sort
+  # 上映日(重複は削除)
+  assign showtimes_start_Days_uniq_ = ''
+  # 上映日時
+  assign showtimes_start_Days_ = ''
+  # 現在の日付
+  assign today = 'today' | date: '%Y-%m-%d' | date: '%s'
+  # 上映日/上映日時生成・ソート
+  for showtimes_start_sort_ in showtimes_starts_sort_
+    assign showtimes_start_sort_seconds_ = showtimes_start_sort_ | date: '%s'
+    if today < showtimes_start_sort_seconds_
+      assign formated_showtimes_start_ = showtimes_start_sort_seconds_ | date: '%Y-%m-%d'
+      assign showtimes_start_Days_uniq_ = showtimes_start_Days_uniq_ | append: formated_showtimes_start_ | append: ','
+      assign showtimes_start_Days_ = showtimes_start_Days_ | append: showtimes_start_sort_seconds_ | append: ','
+    endif
+  endfor
+  # 公開日(重複は削除)
+  assign showtimes_start_Days_ = showtimes_start_Days_ | split: ','
+  # 公開日時
+  assign showtimes_start_Days_uniq_ = showtimes_start_Days_uniq_ | split: ',' | uniq
+%}
+
+<div class="mt-[3rem]">
+  {% for showtimes_start_Day_uniq_ in showtimes_start_Days_uniq_ %}
+    <h2>{{ showtimes_start_Day_uniq_ | date: '%Y-%m-%d' }}</h2>
+    {% for showtimes_start_Day_ in showtimes_start_Days_ %}
+      {% for item in collection.products %}
+        {% liquid
+          assign sortDayFormat = showtimes_start_Day_ | date: '%Y-%m-%d %H:%M'
+          assign itemDayFormat = item.metafields.custom.showtimes_start | date: '%Y-%m-%d %H:%M'
+        %}
+        {% if sortDayFormat == itemDayFormat %}
+          <div>
+            {{ item.metafields.custom.showtimes_start | date: '%H:%M' }}~
+            {{ item.metafields.custom.showtimes_end | date: '%H:%M' }}
+            <a href="{{ item.url }}">購入する</a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+</div>

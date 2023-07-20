@@ -78,10 +78,7 @@
         const formatter = formatCurrency(data.currency);
 
         updateCartTotalPrice(formatter.format(data.total_price / 100));
-        updateItemTotalPrice(
-          itemKey,
-          formatter.format(data.items.find((item) => item.key === itemKey).line_price / 100),
-        );
+        updateItemTotalPrice(itemKey, formatter.format(data.items.find((item) => item.key === itemKey).line_price / 100));
       })
       .catch((error) => {
         console.error(error);
@@ -98,9 +95,7 @@
   }
 
   function updateItemTotalPrice(itemKey, totalPrice) {
-    const itemTotalPrice = document.querySelector(
-      `.cart-item[data-key="${itemKey}"] .cart-item-total-price`,
-    );
+    const itemTotalPrice = document.querySelector(`.cart-item[data-key="${itemKey}"] .cart-item-total-price`);
 
     if (itemTotalPrice) {
       itemTotalPrice.innerHTML = `Total: ${totalPrice}`;

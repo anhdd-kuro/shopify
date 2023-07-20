@@ -1,16 +1,9 @@
-{% assign showtimes_starts = collection.products
-  | map: 'metafields'
-  | map: 'custom'
-  | map: 'showtimes_start'
-%}
+{% assign showtimes_starts = collection.products | map: 'metafields' | map: 'custom' | map: 'showtimes_start' %}
 {% assign showtimes_starts_uniq = '' %}
 
 {% for showtimes_start in showtimes_starts %}
   {% assign formated_showtimes_start = showtimes_start | date: '%Y-%m-%d' %}
-  {% assign showtimes_starts_uniq = showtimes_starts_uniq
-    | append: formated_showtimes_start
-    | append: ','
-  %}
+  {% assign showtimes_starts_uniq = showtimes_starts_uniq | append: formated_showtimes_start | append: ',' %}
 {% endfor %}
 {% assign showtimes_starts_uniq = showtimes_starts_uniq | split: ',' | uniq %}
 
@@ -20,17 +13,13 @@
     <div class="movies-group-by-date">
       <h2>{{ showtimes_start }}</h2>
       {% for product in collection.products %}
-        {% assign product_showtimes_start = product.metafields.custom.showtimes_start
-          | date: '%Y-%m-%d'
-        %}
+        {% assign product_showtimes_start = product.metafields.custom.showtimes_start | date: '%Y-%m-%d' %}
         {% if product_showtimes_start == showtimes_start %}
           <div class="movie-item">
             <p class="showtimes-start">
               {{ product.metafields.custom.showtimes_start | date: '%Y-%m-%d %H:%M' }}
             </p>
-            <p class="showtimes-end">
-              ~ {{ product.metafields.custom.showtimes_end | date: '%Y-%m-%d %H:%M' }}
-            </p>
+            <p class="showtimes-end">~ {{ product.metafields.custom.showtimes_end | date: '%Y-%m-%d %H:%M' }}</p>
             <p class="purchase-link">
               <a href="{{ product.url }}" class="rounded-button">購入する</a>
             </p>
