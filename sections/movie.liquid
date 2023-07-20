@@ -1,0 +1,7 @@
+{% capture param %}
+  {% render 'function_get_query_value_by_key', key: 'type' %}
+{% endcapture %}
+{% assign movie = shop.metaobjects.movies.param %}
+
+<p>{{ movie.title }}</p>
+<p>{{ movie.description }}</p>

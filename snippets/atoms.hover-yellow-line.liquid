@@ -1,0 +1,38 @@
+{% comment %}
+  {
+    /**
+    * 追加クラス
+    */
+    class: string
+    /**
+    * リンク
+    */
+    href: string
+    /**
+    * slot
+    */
+    slot: html.element
+  }
+{% endcomment %}
+
+{% assign commonClass_ = 'hover-line group' %}
+
+{% if href %}
+  <a
+    href="{{ href }}"
+    class="{{ commonClass_ }} {{class}}"
+  >
+    <div class="relative">
+      <span class="content absolute bottom-0 h-[30%] w-0 bg-yellow transition-all duration-[400ms] ease-in-out hover:w-full"></span>
+      {{ slot }}
+    </div>
+  </a>
+{% else %}
+  <div
+    class="hover-line--yellow group {{class}}"
+  >
+    <div class="relative">
+      {{ slot }}
+    </div>
+  </div>
+{% endif %}

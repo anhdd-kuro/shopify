@@ -1,10 +1,18 @@
 {
   "sections": {
-    "movies": {
-      "type": "movies-in-collection"
+    "collection": {
+      "type": "collection",
+      "settings": {
+      }
+    },
+    "collection-schedule": {
+      "type": "collection-schedule",
+      "settings": {
+      }
     }
   },
   "order": [
-    "movies"
+    "collection",
+    "collection-schedule"
   ]
 }

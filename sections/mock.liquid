@@ -1,0 +1,22 @@
+<div class="animate-[fadeUp_1s_ease_1.3s_alternate_forwards]">Fade up</div>
+
+<ul class="space-y-[3rem]">
+  <li>
+    <div class="hover-line--yellow after after:content-['税込']">
+      testtesttesttesttesttest<br>
+      testtesttesttesttesttest
+    </div>
+  </li>
+  <li>
+    {% capture button-contained %}
+			チケット購入
+		{% endcapture %}
+    {% render 'atoms.button-contained', slot: button-contained, class: 'w-[40rem] h-[4.4rem]', type: 'submit' %}
+  </li>
+  <li>
+    {% capture button-outlined %}
+			チケット購入
+		{% endcapture %}
+    {% render 'atoms.button-outlined', slot: button-outlined, class: 'w-[40rem] h-[4.4rem]' %}
+  </li>
+</ul>
