@@ -7,6 +7,7 @@
 
 {% paginate blog.articles by 5 %}
   <h1>{{ blog.title }}</h1>
+  <p>{{ blog.tags }}</p>
   {% for article in blog.articles %}
     <div>
       <h2>
