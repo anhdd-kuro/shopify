@@ -12,9 +12,13 @@
   <div>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</div>
   <div>
     タグ：
-    {%- for tag in article.tags -%}
-      <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
-      {%- unless forloop.last %}, {% endunless %}
-    {%- endfor -%}
+    <ul>
+      {%- for tag in article.tags -%}
+        <li>
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+        </li>
+        {%- unless forloop.last %}, {% endunless %}
+      {%- endfor -%}
+    </ul>
   </div>
 {% endfor %}
