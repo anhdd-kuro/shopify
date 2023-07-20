@@ -10,14 +10,12 @@
   </h2>
   <span> 作成者： {{ article.author }} </span>
   <div>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</div>
-  <div>
-    タグ：
-    <ul>
-      {%- for tag in article.tags -%}
-        <li>
-          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
-        </li>
-      {%- endfor -%}
-    </ul>
-  </div>
+
+  <ul>
+    {%- for tag in article.tags -%}
+      <li>
+        <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+      </li>
+    {%- endfor -%}
+  </ul>
 {% endfor %}
