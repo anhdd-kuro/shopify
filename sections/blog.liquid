@@ -9,7 +9,7 @@
     </a>
   </h2>
   <span> 作成者： {{ article.author }} </span>
-  <div>公開日：{{ article.published_at | time_tag: '%Y年%m月%d日' }}</div>
+  <div>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</div>
   <div>
     タグ：
     {%- for tag in article.tags -%}
