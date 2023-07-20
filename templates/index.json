@@ -23,14 +23,21 @@
         "num_collections": 5
       }
     },
-    "test": {
-      "type": "test",
-      "settings": {}
+    "mock": {
+      "type": "mock",
+      "settings": {
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+      }
     }
   },
   "order": [
-    "test",
     "header",
-    "collections"
+    "collections",
+    "mock",
+    "footer"
   ]
 }
