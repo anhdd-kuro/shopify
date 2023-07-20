@@ -3,30 +3,15 @@
     {{ blog.title | escape }}
   </h1>
   <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul>
-
-  <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
     {%- for article in blog.articles -%}
-      <div
-        class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-          style="--animation-order: {{ forloop.index }};"
-        {% endif %}
-      >
-        <h2>
-          <a href="{{ article.url }}">
-            {%- if article.image -%}
-              <img src="{{ article.image | img_url: '300x300' }}" alt="">
-            {%- endif -%}
-            {{ article.title -}}
-          </a>
-        </h2>
-        <div>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</div>
-
+      <li>
+        <a href="{{ article.url }}">
+          {%- if article.image -%}
+            <img src="{{ article.image | img_url: '300x300' }}" alt="">
+          {%- endif -%}
+          {{ article.title -}}
+          <p>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</p>
+        </a>
         <ul>
           {%- for tag in article.tags -%}
             <li>
@@ -34,7 +19,9 @@
             </li>
           {%- endfor -%}
         </ul>
-      </div>
+      </li>
     {%- endfor -%}
-  </div>
+    <li></li>
+    <li></li>
+  </ul>
 </div>
