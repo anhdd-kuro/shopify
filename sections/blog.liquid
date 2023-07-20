@@ -12,16 +12,17 @@
           {{ article.title -}}
           <p>公開日：{{ article.published_at | time_tag: '%Y/%m/%d' }}</p>
         </a>
-        <ul>
-          {%- for tag in article.tags -%}
-            <li>
-              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
+        <div>
+          タグ：
+          <ul>
+            {%- for tag in article.tags -%}
+              <li>
+                <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
       </li>
     {%- endfor -%}
-    <li></li>
-    <li></li>
   </ul>
 </div>
