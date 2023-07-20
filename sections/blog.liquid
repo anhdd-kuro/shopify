@@ -1,7 +1,18 @@
 <h1>{{ page_title }}</h1>
 {% for article in blog.articles %}
   <h2>
-    <a href="{{ article.url }}">{{ article.title }}</a>
+    <a href="{{ article.url }}">
+      {%- if article.image -%}
+        <img src="{{ article.image | img_url: '300x300' }}" alt="">
+
+        <noscript>
+          <p>
+            {{ article | img_url: '455x300', scale: 2 | img_tag: article.title }}
+          </p>
+        </noscript>
+      {%- endif -%}
+      {{ article.title -}}
+    </a>
   </h2>
   <div>公開日：{{ article.published_at | time_tag: format: 'date' }}</div>
   <div>
