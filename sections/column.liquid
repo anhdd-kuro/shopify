@@ -10,7 +10,7 @@
   {% for article in blog.articles %}
     {%- for tag in article.tags -%}
       <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
-      {%- unless forloop.last %}, {% endunless %}
+      {%- unless forloop.last %}・{% endunless %}
     {%- endfor -%}
     <div>
       <h2>
