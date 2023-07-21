@@ -52,10 +52,9 @@
   </div>
 </section>
 
-<p>a</p>
 {% for movie in shop.metaobjects.movies.values %}
   {{ movie.title }}
-  <a href="/pages/movie?type={{ movie.system.handle }}">詳細ページ</a>
+  <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
 {% endfor %}
 
 {% schema %}
