@@ -1,7 +1,27 @@
-{% capture param %}
-  {% render 'function_get_query_value_by_key', key: 'type' %}
-{% endcapture %}
-{% assign movie = shop.metaobjects.movies.param %}
-
+{% assign movie_handle = request.path | split: '/' | last %}
+{% assign movie = shop.metaobjects.movies[movie_handle] %}
 <p>{{ movie.title }}</p>
-<p>{{ movie.description }}</p>
+<p>{{ movie.country_of_production }}</p>
+<p>{{ movie.dcp_file_name }}</p>
+<p>{{ movie.release_date }}</p>
+<p>{{ movie.publication_end_date }}</p>
+<p>{{ movie.with_dubbing_subtitles }}</p>
+<p>{{ movie.original_title }}</p>
+<p>{{ movie.lens }}</p>
+<p>{{ movie.country_of_production }}</p>
+<p>{{ movie.thumbnail }}</p>
+<p>{{ movie.rate }}</p>
+<p>{{ movie.length }}</p>
+<p>{{ movie.director }}</p>
+<p>{{ movie.stars }}</p>
+<p>{{ movie.home_page }}</p>
+{% for item in movie.product.value %}
+  {{ item | json }}
+{% endfor %}
+{% for child in movie.description.value.children %}
+  {% if child.type == 'heading' %}
+    <h{{ child.level }}>{{ child.children[0].value }}</h{{ child.level }}>
+  {% elsif child.type == 'paragraph' %}
+    <p>{{ child.children[0].value }}</p>
+  {% endif %}
+{% endfor %}
