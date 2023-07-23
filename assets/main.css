@@ -724,6 +724,16 @@ html {
   margin-bottom: calc(3rem * var(--tw-space-y-reverse));
 }
 
+.space-x-\[1rem\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * 0);
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * (1 - 0));
+  margin-left: calc(1rem * (1 - var(--tw-space-x-reverse)));
+  margin-left: calc(1rem * calc(1 - 0));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .divide-y > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * (1 - 0));
@@ -844,6 +854,10 @@ html {
   line-height: 1rem;
 }
 
+.text-\[3rem\] {
+  font-size: 3rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -870,6 +884,18 @@ html {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, 1);
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.text-blue {
+  --tw-text-opacity: 1;
+  color: rgba(0, 0, 255, 1);
+  color: rgba(0, 0, 255, var(--tw-text-opacity));
+}
+
+.text-red {
+  --tw-text-opacity: 1;
+  color: rgba(255, 0, 0, 1);
+  color: rgba(255, 0, 0, var(--tw-text-opacity));
 }
 
 .underline {
@@ -902,9 +928,33 @@ html {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.before\:content-\[\'\>\'\]::before {
+  --tw-content: '>';
+  content: '>';
+  content: var(--tw-content);
+}
+
 .after\:content-\[\'\7A0E\8FBC\'\]::after {
   --tw-content: '税込';
   content: '税込';
+  content: var(--tw-content);
+}
+
+.after\:content-\[\'\>\'\]::after {
+  --tw-content: '>';
+  content: '>';
+  content: var(--tw-content);
+}
+
+.last\:after\:content-\[\]:last-child::after {
+  --tw-content: ;
+  content: /**/;
+  content: var(--tw-content);
+}
+
+.last\:after\:content-\[\'\'\]:last-child::after {
+  --tw-content: '';
+  content: '';
   content: var(--tw-content);
 }
 
