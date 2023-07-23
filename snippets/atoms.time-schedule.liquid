@@ -1,7 +1,7 @@
 <p class="{{ class }}">
   <strong class="text-[1.2em] font-bold">
-    {{ start }}
+    {{ start | date: '%H:%M' }}
   </strong>
   <br>
-  ~ {{ end }}
+  ~ {{ end | date: '%H:%M' }}
 </p>

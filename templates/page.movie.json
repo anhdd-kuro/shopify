@@ -5,14 +5,14 @@
       "settings": {
       }
     },
-    "movie-products": {
-      "type": "movie-products",
+    "movie-schedule": {
+      "type": "movie-schedule",
       "settings": {
       }
     }
   },
   "order": [
     "movie",
-    "movie-products"
+    "movie-schedule"
   ]
 }

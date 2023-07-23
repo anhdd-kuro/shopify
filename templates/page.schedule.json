@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "movies-schedule": {
+      "type": "movies-schedule",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "movies-schedule"
+  ]
+}
