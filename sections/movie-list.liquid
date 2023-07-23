@@ -1,0 +1,8 @@
+<ul>
+  {% for movie in shop.metaobjects.movies.values %}
+    <li>
+      {{ movie.title }}
+      <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+    </li>
+  {% endfor %}
+</ul>
