@@ -1,0 +1,10 @@
+{% assign japanese_day_of_Week = target_
+  | replace: 'Sun', '(日)'
+  | replace: 'Mon', '(月)'
+  | replace: 'Tue', '(火)'
+  | replace: 'Wed', '(水)'
+  | replace: 'Thu', '(木)'
+  | replace: 'Fri', '(金)'
+  | replace: 'Sat', '(土)'
+%}
+{{ japanese_day_of_Week }}

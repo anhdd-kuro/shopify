@@ -4,9 +4,15 @@
       "type": "movie",
       "settings": {
       }
+    },
+    "movie-products": {
+      "type": "movie-products",
+      "settings": {
+      }
     }
   },
   "order": [
-    "movie"
+    "movie",
+    "movie-products"
   ]
 }

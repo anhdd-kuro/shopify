@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "movie-list": {
+      "type": "movie-list",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "movie-list"
+  ]
+}
