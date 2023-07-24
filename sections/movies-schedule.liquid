@@ -1,8 +1,7 @@
 {% for movie in shop.metaobjects.movies.values %}
   {% liquid
-    assign movies = shop.metaobjects.movies
 
-    assign showtimes_starts_ = movies.products.value | map: 'metafields' | map: 'custom' | map: 'showtimes_start' | join: ','
+    assign showtimes_starts_ = movie.products.value | map: 'metafields' | map: 'custom' | map: 'showtimes_start' | join: ','
     assign showtimes_starts_sort_ = showtimes_starts_ | split: ',' | sort
     assign showtimes_start_date_uniq_ = ''
     assign showtimes_start_date_ = ''
@@ -29,8 +28,7 @@
   </script>
 {% endfor %}
 
-{% comment %}
-  <div class="mt-[3rem]">
+  {% comment %} <div class="mt-[3rem]">
     {% for showtime_start_date_uniq_ in showtimes_start_date_uniq_ %}
       <h2 class="text-[3rem]">{{ showtime_start_date_uniq_ | date: '%Y-%m-%d' }}</h2>
       <div class="flex space-x-[2rem]">
@@ -54,5 +52,4 @@
         %}
       </div>
     {% endfor %}
-  </div>
-{% endcomment %}
+  </div> {% endcomment %}
