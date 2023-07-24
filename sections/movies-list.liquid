@@ -1,3 +1,4 @@
+a
 <ul>
   {% for movie in shop.metaobjects.movies.values %}
     <li>
@@ -6,3 +7,4 @@
     </li>
   {% endfor %}
 </ul>
+{{ shop.metaobjects.movies.values | json }}
