@@ -724,16 +724,6 @@ html {
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.space-y-\[3rem\] > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(3rem * (1 - 0));
-  margin-top: calc(3rem * (1 - var(--tw-space-y-reverse)));
-  margin-top: calc(3rem * calc(1 - 0));
-  margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(3rem * 0);
-  margin-bottom: calc(3rem * var(--tw-space-y-reverse));
-}
-
 .space-x-\[2rem\] > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(2rem * 0);
@@ -742,6 +732,16 @@ html {
   margin-left: calc(2rem * (1 - var(--tw-space-x-reverse)));
   margin-left: calc(2rem * calc(1 - 0));
   margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-\[3rem\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(3rem * (1 - 0));
+  margin-top: calc(3rem * (1 - var(--tw-space-y-reverse)));
+  margin-top: calc(3rem * calc(1 - 0));
+  margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(3rem * 0);
+  margin-bottom: calc(3rem * var(--tw-space-y-reverse));
 }
 
 .divide-y > :not([hidden]) ~ :not([hidden]) {
