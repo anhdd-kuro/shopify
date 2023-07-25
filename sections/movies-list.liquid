@@ -1,8 +1,41 @@
-<ul>
+<ul class="flex">
   {% for movie in shop.metaobjects.movies.values %}
-    <li>
-      {{ movie.title }}
-      <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-    </li>
+    {% assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s' %}
+    {% assign release_date_ = movie.release_date | date: '%Y-%m-%d' | date: '%s' %}
+    {% capture list_item %}
+      <li>
+        {{ movie.title }}
+        <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+        <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+      </li>
+    {% endcapture %}
+    {% if section.settings.is_screened_works and today_ > release_date_ %}
+      {{ list_item }}
+    {% elsif section.settings.is_coming_soon and today_ < release_date_ %}
+      {{ list_item }}
+    {% endif %}
   {% endfor %}
 </ul>
+
+{% schema %}
+{
+  "name": "movies-list",
+  "settings": [
+    {
+      "type": "radio",
+      "id": "prev_status",
+      "label": "上映一覧ステータス",
+      "options": [
+        {
+          "value": "is_screened_works_",
+          "label": "上映作品"
+        },
+        {
+          "value": "is_coming_soon",
+          "label": "近日公開作品"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

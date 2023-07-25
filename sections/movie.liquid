@@ -2,31 +2,11 @@
   # 映画詳細のメタオブジェクト
   assign movie_handle = request.path | split: '/' | last
   assign movie = shop.metaobjects.movies[movie_handle]
-
-  # ジャンルの配列の生成
-  assign genre = movie.genre.value
-  assign genreArray = ''
-  if genre.children
-    assign genreArray = genreArray | append: genre.name | append: ','
-    if genre.children.value.children
-      assign genreArray = genreArray | append: genre.children.value.name | append: ','
-      if genre.children.value.children
-        assign genreArray = genreArray | append: genre.children.value.children.value.name | append: ','
-      endif
-    else
-      assign genreArray = genreArray | append: genre.children.value.name | append: ','
-    endif
-  else
-    assign genreArray = genreArray | append: genre.name | append: ','
-  endif
-  assign genreArray = genreArray | split: ',' | reverse
 %}
 
-<div class="flex space-x-[1rem]">
-  {% for item in genreArray %}
-    <p class="after:content-['>'] last:after:content-['']">{{ item }}</p>
-  {% endfor %}
-</div>
+{% for genre in movie.genre.value %}
+  {{ genre.name }}
+{% endfor %}
 
 <div class="mt-[3rem]">
   <p>{{ movie.title }}</p>
@@ -46,7 +26,7 @@
   <p>{{ movie.original_title }}</p>
   <p>{{ movie.lens }}</p>
   <p>{{ movie.country_of_production }}</p>
-  <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail }}" alt="{{movie.title}}">
+  <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
   <p>{{ movie.rate }}</p>
   <p>{{ movie.length }}</p>
   <p>{{ movie.director }}</p>
