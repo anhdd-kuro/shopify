@@ -3,7 +3,7 @@
     "movies-list": {
       "type": "movies-list",
       "settings": {
-        "prev_status": "is_coming_soon"
+        "prev_status": "0"
       }
     }
   },
