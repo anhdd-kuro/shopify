@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "movies-list": {
+      "type": "movies-list",
+      "settings": {
+        "prev_status": "1"
+      }
+    }
+  },
+  "order": [
+    "movies-list"
+  ]
+}
