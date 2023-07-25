@@ -19,17 +19,13 @@
   {% endfor %}
 </ul>
 
-{% if section.settings.is_end_of_screening %}
-  {% assign test = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
-
-  {% if test %}
-    {{ test }}
-  {% endif %}
-
+{% assign is_show_end_of_screening = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
+<h3 class="text-[3rem]">まもなく上映終了</h3>
+{% if section.settings.is_end_of_screening and is_show_end_of_screening %}
   <ul class="mt-[3rem] flex">
     {% for movie in shop.metaobjects.movies.values %}
       {% assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s' %}
-      {% if today_ >= release_date_ and movie.is_end_of_screening %}
+      {% if today_ <= release_date_ and movie.is_end_of_screening %}
         <li>
           {{ movie.title }}
           <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
