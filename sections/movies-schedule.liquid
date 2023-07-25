@@ -1,55 +1,35 @@
-{% for movie in shop.metaobjects.movies.values %}
-  {% liquid
+{% liquid
+  # assign showtimes_start_date_uniq_ = ''
+  assign movies = shop.metaobjects.movies.values
 
+  assign showtimes_start_date_uniq_ = ''
+  for movie in movies
     assign showtimes_starts_ = movie.products.value | map: 'metafields' | map: 'custom' | map: 'showtimes_start' | join: ','
     assign showtimes_starts_sort_ = showtimes_starts_ | split: ',' | sort
-    assign showtimes_start_date_uniq_ = ''
-    assign showtimes_start_date_ = ''
     # 現在の日付
     assign today = 'today' | date: '%Y-%m-%d' | date: '%s'
-
     # 上映日/上映日時生成・ソート
     for showtimes_start_sort_ in showtimes_starts_sort_
       assign showtimes_start_sort_seconds_ = showtimes_start_sort_ | date: '%s'
       if today < showtimes_start_sort_seconds_
         assign formated_showtimes_start_ = showtimes_start_sort_ | date: '%Y-%m-%d'
         assign showtimes_start_date_uniq_ = showtimes_start_date_uniq_ | append: formated_showtimes_start_ | append: ','
-        assign showtimes_start_date_ = showtimes_start_date_ | append: showtimes_start_sort_ | append: ','
       endif
     endfor
-    # 公開日時
-    assign showtimes_start_date_ = showtimes_start_date_ | split: ','
-    # 公開日(重複は削除)
-    assign showtimes_start_date_uniq_ = showtimes_start_date_uniq_ | split: ',' | uniq
-  %}
-  {{ movie | json }}
-  <script>
-    console.log( {{ movie | json }})
-  </script>
-{% endfor %}
+  endfor
+  assign showtimes_start_date_uniq_ = showtimes_start_date_uniq_ | split: ',' | uniq
+%}
 
-  {% comment %} <div class="mt-[3rem]">
-    {% for showtime_start_date_uniq_ in showtimes_start_date_uniq_ %}
-      <h2 class="text-[3rem]">{{ showtime_start_date_uniq_ | date: '%Y-%m-%d' }}</h2>
-      <div class="flex space-x-[2rem]">
-        {% liquid
-          for showtime_start_date_ in showtimes_start_date_
-            assign showtime_start_date_uniq_convert_ = showtime_start_date_uniq_ | date: '%Y-%m'
-            assign showtime_start_date_convert_ = showtime_start_date_ | date: '%Y-%m'
-            # 上映日と上映時間の照合
-            if showtime_start_date_uniq_convert_ == showtime_start_date_convert_
-              for product_ in movies.products.value
-                # 上映時間
-                assign showtime_start_date_time_ = showtime_start_date_ | date: '%Y-%m-%d %H:%M'
-                assign product_date_time_ = product_.metafields.custom.showtimes_start | date: '%Y-%m-%d %H:%M'
-                # 商品オブジェクトと上映時間の照合
-                if showtime_start_date_time_ == product_date_time_
-                  render 'molecules.schedule-list-item', href: product_.url, start_time: product_.metafields.custom.showtimes_start, end_time: product_.metafields.custom.showtimes_end
-                endif
-              endfor
-            endif
-          endfor
-        %}
-      </div>
-    {% endfor %}
-  </div> {% endcomment %}
+{% for showtime_start_date_uniq_ in showtimes_start_date_uniq_ %}
+  <section>
+    <h2 class="text-[3rem]">
+      {% assign target_date_ = showtime_start_date_uniq_ | date: '%-m月%-d日 %a' %}
+      {% render 'function.convert-date', target_: target_date_ %}
+    </h2>
+    <div>
+      {% for movie in movies %}
+        {% render 'molecules.schedule-list', movie: movie, target_date: showtime_start_date_uniq_, is_title: true %}
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}

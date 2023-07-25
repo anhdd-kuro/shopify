@@ -1,33 +1,64 @@
-<div class="flex h-full flex-col divide-y border">
-  <h3 class="p-4 text-xl font-semibold">
-    {{ collection_.title }}
-  </h3>
-  <ul class="-mb-[1px] -mr-[1px] grid h-full grid-cols-[repeat(auto-fit,minmax(100px,1fr))] grid-rows-[repeat(2,minmax(80px,1fr))] text-center">
-    {% for index in (0..6) %}
-      <li class="flex flex-col gap-2 border-b border-r px-4 py-2 text-sm">
-        {% assign product = collection_.products[index] %}
-        {% if product %}
-          {% assign product_showtimes_start = product.metafields.custom.showtimes_start | date: '%H:%M' %}
-          {% assign product_showtimes_end = product.metafields.custom.showtimes_end | date: '%H:%M' %}
+{% comment %}
+  {
+    /**
+    * 追加クラス
+    */
+    class: string
+    /**
+    * sortする日時
+    */
+    target_date: Date
+    /**
+    * 上映作品(メタオブジェクト)
+    */
+    movie: Object
+    /**
+    * タイトルを表示するか
+    */
+    is_title:boolean
+  }
+{% endcomment %}
 
-          {% render 'atoms.time-schedule', start: product_showtimes_start, end: product_showtimes_end %}
+{% liquid
+  assign is_product = false
+  for product_ in movie.products.value
+    assign convert_showtimes_start = product_.metafields.custom.showtimes_start | date: '%Y-%m-%d'
+    assign convert_target_date_ = target_date | date: '%Y-%m-%d'
+    if convert_showtimes_start == convert_target_date_
+      assign is_product = true
+    endif
+  endfor
+%}
 
-          <a
-            href="{{ product.url }}"
-            class="whitespace-nowrap rounded-full bg-black py-1 text-xs font-bold text-white"
-          >
-            {% case time.status %}
-              {% when '1' %}
-                △
-              {% when '2' %}
-                ⚪︎
-              {% else %}
-                ◎
-            {% endcase %}
-            販売中
-          </a>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+{% if is_title %}
+  {% if is_product %}
+    <div class="flex h-full flex-col divide-y border {{class}}">
+      <h3 class="p-4 text-xl font-semibold">
+        {{ movie.title }}
+      </h3>
+      <div class="space-y-[2rem]">
+        {% liquid
+          for product_ in movie.products.value
+            assign convert_showtimes_start_date_ = product_.metafields.custom.showtimes_start | date: '%Y-%m-%d'
+            assign convert_target_date_ = target_date | date: '%Y-%m-%d'
+            if convert_showtimes_start_date_ == convert_target_date_
+              render 'molecules.schedule-list-item', href: product_.url, start_time: product_.metafields.custom.showtimes_start, end_time: product_.metafields.custom.showtimes_end
+            endif
+          endfor
+        %}
+      </div>
+    </div>
+  {% endif %}
+{% else %}
+  <div class="space-y-[2rem]">
+    {% liquid
+      for product_ in movie.products.value
+        assign convert_showtimes_start_date_ = product_.metafields.custom.showtimes_start | date: '%Y-%m-%d'
+        assign convert_target_date_ = target_date | date: '%Y-%m-%d'
+        if convert_showtimes_start_date_ == convert_target_date_
+          render 'molecules.schedule-list-item', href: product_.url, start_time: product_.metafields.custom.showtimes_start, end_time: product_.metafields.custom.showtimes_end
+        endif
+      endfor
+    %}
+  </div>
+{% endif %}
