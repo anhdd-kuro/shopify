@@ -1,3 +1,5 @@
+aa
+
 <ul class="flex">
   {% for movie in shop.metaobjects.movies.values %}
     {% assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s' %}
@@ -9,9 +11,9 @@
         <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
       </li>
     {% endcapture %}
-    {% if section.settings.is_screened_works and today_ > release_date_ %}
+    {% if section.settings.prev_status == 0 and today_ > release_date_ %}
       {{ list_item }}
-    {% elsif section.settings.is_coming_soon and today_ < release_date_ %}
+    {% elsif section.settings.prev_status == 1 and today_ < release_date_ %}
       {{ list_item }}
     {% endif %}
   {% endfor %}
@@ -27,11 +29,11 @@
       "label": "上映一覧ステータス",
       "options": [
         {
-          "value": "is_screened_works_",
+          "value": "0",
           "label": "上映作品"
         },
         {
-          "value": "is_coming_soon",
+          "value": "1",
           "label": "近日公開作品"
         }
       ]
