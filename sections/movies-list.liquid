@@ -1,91 +1,110 @@
-<ul class="flex">
-  {% liquid
-    # sort
-    assign release_date_array_ = shop.metaobjects.movies.values | map: 'release_date' | join: ','
-    assign sort_release_date_array_ = release_date_array_ | split: ',' | sort
-  %}
-  {% for sort_release_date_ in sort_release_date_array_ %}
-    {% for movie in shop.metaobjects.movies.values %}
-      {% liquid
-        assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s'
-        assign convert_release_date_ = movie.release_date | date: '%Y-%m-%d'
-        assign convert_sort_release_date_ = sort_release_date_ | date: '%Y-%m-%d'
-        assign convert_release_date_seconds_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
-      %}
-      {% capture list_item %}
-        <li>
-          {{ movie.release_date }}
-          <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-          {{ movie.title }}
-          <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-        </li>
-      {% endcapture %}
-      {% if convert_sort_release_date_ == convert_release_date_ %}
-        {% if today_ >= convert_release_date_seconds_ and section.settings.prev_status == '0' %}
-          {{ list_item }}
-        {% elsif section.settings.prev_status == '1' and today_ < convert_release_date_seconds_ %}
-          {{ list_item }}
-        {% elsif section.settings.prev_status == '2' and today_ < convert_release_date_seconds_ and movie.is_oneshotcinema %}
-          {{ list_item }}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
-  {% # releace dateがnullのもの %}
-  {% for movie in shop.metaobjects.movies.values %}
-    {% capture list_item %}
-      <li>
-        {{ movie.release_date }}
-        <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-        {{ movie.title }}
-        <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-      </li>
-    {% endcapture %}
-    {% if movie.release_date == null and section.settings.prev_status == '1' %}
-      {{ list_item }}
-    {% endif %}
-  {% endfor %}
-</ul>
-
-{% assign is_show_end_of_screening = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
-
-{% if section.settings.is_end_of_screening and is_show_end_of_screening %}
-  {% liquid
-    # sort
-    assign publication_end_date_array_ = shop.metaobjects.movies.values | map: 'publication_end_date' | join: ','
-    assign sort_publication_end_date_array_ = publication_end_date_array_ | split: ',' | sort
-  %}
-
-  <h3 class="text-[3rem]">まもなく上映終了</h3>
-  <ul class="mt-[3rem] flex">
-    {% for sort_publication_end_date_ in sort_publication_end_date_array_ %}
+{% assign wrap_class = 'flex space-x-[3rem] mt-[3rem]' %}
+{% # 上映中|近日公開|ワンショットシネマ %}
+<section>
+  <h2 class="text-[3rem]">{{ page_title }}</h2>
+  <ul class="{{wrap_class}}">
+    {% liquid
+      # sort
+      assign release_date_array_ = shop.metaobjects.movies.values | map: 'release_date' | join: ','
+      assign sort_release_date_array_ = release_date_array_ | split: ',' | uniq | sort
+    %}
+    {% for sort_release_date_ in sort_release_date_array_ %}
       {% for movie in shop.metaobjects.movies.values %}
         {% liquid
           assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s'
-          assign release_date_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
-          assign convert_publication_end_date_ = movie.publication_end_date | date: '%Y-%m-%d'
-          assign convert_sort_publication_end_date_ = sort_publication_end_date_ | date: '%Y-%m-%d'
+          assign convert_release_date_ = movie.release_date | date: '%Y-%m-%d'
+          assign convert_sort_release_date_ = sort_release_date_ | date: '%Y-%m-%d'
+          assign convert_release_date_seconds_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
         %}
         {% capture list_item %}
-          <li>
-            {{ movie.release_date }}
-            <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-            {{ movie.title }}
-            <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-          </li>
-        {% endcapture %}
+        <li>
+          <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+          <p>{{ movie.release_date }}</p>
+          
+          <p>{{ movie.title }}</p>
+          <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+        </li>
+      {% endcapture %}
 
-        {% if today_ >= release_date_ and movie.is_end_of_screening %}
-          {% if convert_sort_publication_end_date_ == convert_publication_end_date_ %}
+        {% if convert_sort_release_date_ == convert_release_date_ %}
+          {% if today_ >= convert_release_date_seconds_ and section.settings.prev_status == '0' %}
             {{ list_item }}
-          {% elsif movie.publication_end_date == null %}
+          {% elsif section.settings.prev_status == '1' and today_ < convert_release_date_seconds_ %}
+            {{ list_item }}
+          {% elsif section.settings.prev_status == '2' and today_ < convert_release_date_seconds_ and movie.is_oneshotcinema %}
             {{ list_item }}
           {% endif %}
         {% endif %}
       {% endfor %}
     {% endfor %}
+    {% # releace dateがnullのもの %}
+    {% for movie in shop.metaobjects.movies.values %}
+      {% capture list_item %}
+      <li>
+        <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+        <p>{{ movie.release_date }}</p>
+        <p>{{ movie.title }}</p>
+        <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+      </li>
+    {% endcapture %}
+      {% if movie.release_date == null and section.settings.prev_status == '1' %}
+        {{ list_item }}
+      {% endif %}
+    {% endfor %}
   </ul>
-{% endif %}
+</section>
+
+{% # まもなく上映終了 %}
+<section class="mt-[3rem]">
+  <h3 class="text-[3rem]">まもなく上映終了</h3>
+  <ul class="{{wrap_class}}">
+    {% assign is_show_end_of_screening = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
+    {% if section.settings.is_end_of_screening and is_show_end_of_screening %}
+      {% liquid
+        # sort
+        assign publication_end_date_array_ = shop.metaobjects.movies.values | map: 'publication_end_date' | join: ','
+        assign sort_publication_end_date_array_ = publication_end_date_array_ | split: ',' | uniq | sort
+      %}
+      {% for sort_publication_end_date_ in sort_publication_end_date_array_ %}
+        {% for movie in shop.metaobjects.movies.values %}
+          {% liquid
+            assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s'
+            assign release_date_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
+            assign convert_publication_end_date_ = movie.publication_end_date | date: '%Y-%m-%d'
+            assign convert_sort_publication_end_date_ = sort_publication_end_date_ | date: '%Y-%m-%d'
+          %}
+          {% capture list_item %}
+          <li>
+            <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+            <p>{{ movie.release_date }}</p>
+            <p>{{ movie.title }}</p>
+            <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+          </li>
+        {% endcapture %}
+
+          {% if convert_sort_publication_end_date_ == convert_publication_end_date_ and today_ >= release_date_ and movie.is_end_of_screening %}
+            {{ list_item }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      {% # publication_end_dateがnullのもの %}
+      {% for movie in shop.metaobjects.movies.values %}
+        {% capture list_item %}
+        <li>
+          <img loading="lazy" width="100" height="100" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+          <p>{{ movie.release_date }}</p>
+          <p>{{ movie.title }}</p>
+          <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+        </li>
+      {% endcapture %}
+
+        {% if movie.publication_end_date == null and movie.is_end_of_screening and today_ >= release_date_ %}
+          {{ list_item }}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+</section>
 
 {% schema %}
 {
