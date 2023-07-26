@@ -22,6 +22,7 @@
       {% endcapture %}
       {% if convert_sort_release_date_ == convert_release_date_ %}
         {% if today_ >= convert_release_date_seconds_ and section.settings.prev_status == '0' %}
+          {{ list_item }}
         {% elsif section.settings.prev_status == '1' and today_ < convert_release_date_seconds_ %}
           {{ list_item }}
         {% elsif section.settings.prev_status == '2' and today_ < convert_release_date_seconds_ and movie.is_oneshotcinema %}
