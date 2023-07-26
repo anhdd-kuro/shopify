@@ -19,13 +19,13 @@
         %}
         {% comment %} TODO:コンポーネント化 {% endcomment %}
         {% capture list_item %}
-        <li>
-          <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-          <p>release_date:{{ movie.release_date }}</p>
-          
-          <p>{{ movie.title }}</p>
-          <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-        </li>
+          <li>
+            <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+            <p>公開日:{{ movie.release_date }}</p>
+            <p>公開終了日:{{ movie.publication_end_date }}</p>
+            <p>{{ movie.title }}</p>
+            <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+          </li>
       {% endcapture %}
 
         {% if convert_sort_release_date_ == convert_release_date_
@@ -54,7 +54,8 @@
       {% capture list_item %}
         <li>
           <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-          <p>{{ movie.release_date }}</p>
+          <p>公開日:{{ movie.release_date }}</p>
+          <p>公開終了日:{{ movie.publication_end_date }}</p>
           <p>{{ movie.title }}</p>
           <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
         </li>
@@ -88,14 +89,14 @@
           %}
           {% comment %} TODO:コンポーネント化 {% endcomment %}
           {% capture list_item %}
-          <li>
-            <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-            <p>release_date:{{ movie.release_date }}</p>
-            <p>publication_end_date:{{ movie.publication_end_date }}</p>
-            <p>{{ movie.title }}</p>
-            <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-          </li>
-        {% endcapture %}
+            <li>
+              <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+              <p>公開日:{{ movie.release_date }}</p>
+              <p>公開終了日:{{ movie.publication_end_date }}</p>
+              <p>{{ movie.title }}</p>
+              <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+            </li>
+          {% endcapture %}
 
           {% if convert_sort_publication_end_date_ == convert_publication_end_date_
             and today_ >= release_date_
@@ -112,8 +113,8 @@
         {% capture list_item %}
         <li>
           <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-          <p>release_date:{{ movie.release_date }}</p>
-          <p>publication_end_date:{{ movie.publication_end_date }}</p>
+          <p>公開日:{{ movie.release_date }}</p>
+          <p>公開終了日:{{ movie.publication_end_date }}</p>
           <p>{{ movie.title }}</p>
           <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
         </li>
