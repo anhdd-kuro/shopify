@@ -31,7 +31,7 @@
         {% if convert_sort_release_date_ == convert_release_date_
           and section.settings.prev_status == '0'
           and today_ >= convert_release_date_seconds_
-          and today_ < convert_publication_end_date_seconds_
+          and today_ <= convert_publication_end_date_seconds_
           or movie.publication_end_date == null
         %}
           {{ list_item }}
