@@ -29,9 +29,10 @@
       {% endcapture %}
 
         {% if convert_sort_release_date_ == convert_release_date_
+          and section.settings.prev_status == '0'
           and today_ >= convert_release_date_seconds_
           and today_ < convert_publication_end_date_seconds_
-          and section.settings.prev_status == '0'
+          or movie.publication_end_date == null
         %}
           {{ list_item }}
         {% elsif convert_sort_release_date_ == convert_release_date_
@@ -60,7 +61,7 @@
           <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
         </li>
       {% endcapture %}
-      {% if movie.release_date == null and section.settings.prev_status == '1' %}
+      {% if movie.release_date == null and section.settings.prev_status == '1' or section.settings.prev_status == '2' %}
         {{ list_item }}
       {% endif %}
     {% endfor %}
@@ -68,11 +69,12 @@
 </section>
 
 {% # まもなく上映終了 %}
-<section class="mt-[3rem]">
-  <h3 class="text-[3rem]">まもなく上映終了</h3>
-  <ul class="{{wrap_class}}">
-    {% assign is_show_end_of_screening = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
-    {% if section.settings.is_end_of_screening and is_show_end_of_screening %}
+
+{% assign is_show_end_of_screening = shop.metaobjects.movies.values | map: 'is_end_of_screening' %}
+{% if section.settings.is_end_of_screening and is_show_end_of_screening %}
+  <section class="mt-[3rem]">
+    <h3 class="text-[3rem]">まもなく上映終了</h3>
+    <ul class="{{wrap_class}}">
       {% liquid
         # sort
         assign publication_end_date_array_ = shop.metaobjects.movies.values | map: 'publication_end_date' | join: ','
@@ -101,7 +103,7 @@
           {% if convert_sort_publication_end_date_ == convert_publication_end_date_
             and today_ >= release_date_
             and movie.is_end_of_screening
-            and today_ < convert_publication_end_date_seconds_
+            and today_ <= convert_publication_end_date_seconds_
           %}
             {{ list_item }}
           {% endif %}
@@ -124,9 +126,9 @@
           {{ list_item }}
         {% endif %}
       {% endfor %}
-    {% endif %}
-  </ul>
-</section>
+    </ul>
+  </section>
+{% endif %}
 
 {% schema %}
 {
