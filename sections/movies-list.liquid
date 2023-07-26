@@ -41,8 +41,7 @@
           {{ list_item }}
         {% elsif convert_sort_release_date_ == convert_release_date_
           and section.settings.prev_status == '2'
-          and today_ < convert_release_date_seconds_
-          and today_ < convert_publication_end_date_seconds_
+          and today_ <= convert_release_date_seconds_
           and movie.is_oneshotcinema
         %}
           {{ list_item }}
