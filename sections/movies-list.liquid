@@ -15,7 +15,9 @@
           assign convert_release_date_ = movie.release_date | date: '%Y-%m-%d'
           assign convert_sort_release_date_ = sort_release_date_ | date: '%Y-%m-%d'
           assign convert_release_date_seconds_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
+          assign convert_publication_end_date_seconds_ = movie.publication_end_date | date: '%Y-%m-%d' | date: '%s'
         %}
+        {% comment %} TODO:コンポーネント化 {% endcomment %}
         {% capture list_item %}
         <li>
           <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
@@ -26,27 +28,38 @@
         </li>
       {% endcapture %}
 
-        {% if convert_sort_release_date_ == convert_release_date_ %}
-          {% if today_ >= convert_release_date_seconds_ and section.settings.prev_status == '0' %}
-            {{ list_item }}
-          {% elsif section.settings.prev_status == '1' and today_ < convert_release_date_seconds_ %}
-            {{ list_item }}
-          {% elsif section.settings.prev_status == '2' and today_ < convert_release_date_seconds_ and movie.is_oneshotcinema %}
-            {{ list_item }}
-          {% endif %}
+        {% if convert_sort_release_date_ == convert_release_date_
+          and today_ >= convert_release_date_seconds_
+          and today_ < convert_publication_end_date_seconds_
+          and section.settings.prev_status == '0'
+        %}
+          {{ list_item }}
+        {% elsif convert_sort_release_date_ == convert_release_date_
+          and section.settings.prev_status == '1'
+          and today_ < convert_release_date_seconds_
+        %}
+          {{ list_item }}
+        {% elsif convert_sort_release_date_ == convert_release_date_
+          and section.settings.prev_status == '2'
+          and today_ < convert_release_date_seconds_
+          and today_ < convert_publication_end_date_seconds_
+          and movie.is_oneshotcinema
+        %}
+          {{ list_item }}
         {% endif %}
       {% endfor %}
     {% endfor %}
     {% # releace dateがnullのもの %}
     {% for movie in shop.metaobjects.movies.values %}
+      {% comment %} TODO:コンポーネント化 {% endcomment %}
       {% capture list_item %}
-      <li>
-        <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
-        <p>{{ movie.release_date }}</p>
-        <p>{{ movie.title }}</p>
-        <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
-      </li>
-    {% endcapture %}
+        <li>
+          <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
+          <p>{{ movie.release_date }}</p>
+          <p>{{ movie.title }}</p>
+          <a href="/pages/movie/{{ movie.system.handle }}">詳細ページ</a>
+        </li>
+      {% endcapture %}
       {% if movie.release_date == null and section.settings.prev_status == '1' %}
         {{ list_item }}
       {% endif %}
@@ -70,9 +83,11 @@
           {% liquid
             assign today_ = 'today' | date: '%Y-%m-%d' | date: '%s'
             assign release_date_ = movie.release_date | date: '%Y-%m-%d' | date: '%s'
+            assign convert_publication_end_date_seconds_ = movie.publication_end_date | date: '%Y-%m-%d' | date: '%s'
             assign convert_publication_end_date_ = movie.publication_end_date | date: '%Y-%m-%d'
             assign convert_sort_publication_end_date_ = sort_publication_end_date_ | date: '%Y-%m-%d'
           %}
+          {% comment %} TODO:コンポーネント化 {% endcomment %}
           {% capture list_item %}
           <li>
             <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
@@ -83,13 +98,18 @@
           </li>
         {% endcapture %}
 
-          {% if convert_sort_publication_end_date_ == convert_publication_end_date_ and today_ >= release_date_ and movie.is_end_of_screening %}
+          {% if convert_sort_publication_end_date_ == convert_publication_end_date_
+            and today_ >= release_date_
+            and movie.is_end_of_screening
+            and today_ < convert_publication_end_date_seconds_
+          %}
             {{ list_item }}
           {% endif %}
         {% endfor %}
       {% endfor %}
       {% # publication_end_dateがnullのもの %}
       {% for movie in shop.metaobjects.movies.values %}
+        {% comment %} TODO:コンポーネント化 {% endcomment %}
         {% capture list_item %}
         <li>
           <img loading="lazy" width="200" height="200" src="{{ movie.thumbnail | file_url }}" alt="{{movie.title}}">
