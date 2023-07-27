@@ -1,6 +1,8 @@
 {% form 'create_customer' %}
   {{ form.errors | default_errors }}
   <!-- デフォルトの入力フィールド -->
+
+  <!-- 苗字 -->
   <label for="LastName" class="label--hidden">{{ 'customer.register.last_name' | t }}</label>
   <input
     type="text"
@@ -11,8 +13,11 @@
       value="{{ form.last_name }}"
     {% endif %}
     autocapitalize="words"
+    x-data
+    data-error-msg="custom error message"
   >
 
+  <!-- 名前 -->
   <div>
     <label for="FirstName" class="label--hidden">{{ 'customer.register.first_name' | t }}</label>
     <input
@@ -27,7 +32,7 @@
       autofocus
     >
   </div>
-
+  <!-- e-mail -->
   <div>
     <label for="Email" class="label--hidden">{{ 'customer.register.email' | t }}</label>
     <input
@@ -43,7 +48,7 @@
       autocapitalize="off"
     >
   </div>
-
+  <!-- パスワード -->
   <div>
     <label for="CreatePassword" class="label--hidden">{{ 'customer.register.password' | t }}</label>
     <input
