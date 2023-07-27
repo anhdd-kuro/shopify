@@ -13,45 +13,51 @@
     autocapitalize="words"
   >
 
-  <label for="FirstName" class="label--hidden">{{ 'customer.register.first_name' | t }}</label>
-  <input
-    type="text"
-    name="customer[first_name]"
-    id="FirstName"
-    placeholder="{{ 'customer.register.first_name' | t }}"
-    {% if form.first_name %}
-      value="{{ form.first_name }}"
-    {% endif %}
-    autocapitalize="words"
-    autofocus
-  >
+  <div>
+    <label for="FirstName" class="label--hidden">{{ 'customer.register.first_name' | t }}</label>
+    <input
+      type="text"
+      name="customer[first_name]"
+      id="FirstName"
+      placeholder="{{ 'customer.register.first_name' | t }}"
+      {% if form.first_name %}
+        value="{{ form.first_name }}"
+      {% endif %}
+      autocapitalize="words"
+      autofocus
+    >
+  </div>
 
-  <label for="Email" class="label--hidden">{{ 'customer.register.email' | t }}</label>
-  <input
-    type="email"
-    name="customer[email]"
-    id="Email"
-    class="{% if form.errors contains 'email' %} input--error{% endif %}"
-    placeholder="{{ 'customer.register.email' | t }}"
-    {% if form.email %}
-      value="{{ form.email }}"
-    {% endif %}
-    autocorrect="off"
-    autocapitalize="off"
-  >
+  <div>
+    <label for="Email" class="label--hidden">{{ 'customer.register.email' | t }}</label>
+    <input
+      type="email"
+      name="customer[email]"
+      id="Email"
+      class="{% if form.errors contains 'email' %} input--error{% endif %}"
+      placeholder="{{ 'customer.register.email' | t }}"
+      {% if form.email %}
+        value="{{ form.email }}"
+      {% endif %}
+      autocorrect="off"
+      autocapitalize="off"
+    >
+  </div>
 
-  <label for="CreatePassword" class="label--hidden">{{ 'customer.register.password' | t }}</label>
-  <input
-    type="password"
-    name="customer[password]"
-    id="CreatePassword"
-    class="{% if form.errors contains 'password' %} input--error{% endif %}"
-    placeholder="{{ 'customer.register.password' | t }}"
-  >
-  <!-- //End デフォルトの入力フィールド -->
+  <div>
+    <label for="CreatePassword" class="label--hidden">{{ 'customer.register.password' | t }}</label>
+    <input
+      type="password"
+      name="customer[password]"
+      id="CreatePassword"
+      class="{% if form.errors contains 'password' %} input--error{% endif %}"
+      placeholder="{{ 'customer.register.password' | t }}"
+    >
+    <!-- //End デフォルトの入力フィールド -->
+  </div>
 
   <!-- 生年月日の取得 -->
-  <label for="birthday" class="label">お誕生日</label>
+  <label for="birthday" class="label">生年月日</label>
   <input type="date" value="" name="customer[note][誕生日]" id="birthday">
   <!-- //End 生年月日の取得 -->
 
@@ -63,13 +69,13 @@
   </div>
   <!-- //End 性別の取得 -->
 
-  <!-- 性別の取得 -->
+  <!-- DM受け取りの設定 -->
   <div class="field-radio">
-    <label for="gender" class="label">性別</label>
-    <input type="radio" value="男性" name="customer[note][性別]" id="gender">男性
-    <input type="radio" value="女性" name="customer[note][性別]" id="gender">女性
+    <label for="gender" class="label">DM受け取りの設定</label>
+    <input type="radio" value="受け取る" name="customer[note][dm]" id="receive_dm">受け取る
+    <input type="radio" value="受け取らない" name="customer[note][dm]" id="receive_dm">受け取らない
   </div>
-  <!-- //End 性別の取得 -->
+  <!-- //End DM受け取りの設定 -->
 
   <p>
     <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn">
