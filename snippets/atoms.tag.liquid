@@ -1,0 +1,32 @@
+{% comment %}
+  {
+    /**
+    * 追加クラス
+    */
+    class: string
+    /**
+    * コンテンツ
+    */
+    content: html.element
+    /**
+    * rounded
+    */
+    roundedClass: boolean
+    /**
+    * font-weight
+    */
+    boldClass: boolean
+  }
+{% endcomment %}
+
+{% assign commonClass_ = 'inline-flex-center fill-white text-white' %}
+
+{% comment %} 使いたくない場合は、falseを渡す {% endcomment %}
+{% liquid
+  assign boldClass_ = boldClass | default: 'font-bold', allow_false: true | default: ''
+  assign roundedClass_ = roundedClass | default: 'rounded-[5px]', allow_false: true | default: ''
+%}
+
+<span class="{{ commonClass_ }} {{ boldClass_ }} {{ roundedClass_ }} {{ class }}">
+  {{ content }}
+</span>

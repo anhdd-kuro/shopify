@@ -19,4 +19,21 @@
 		{% endcapture %}
     {% render 'atoms.button-outlined', slot: button-outlined, class: 'w-[40rem] h-[4.4rem]' %}
   </li>
+  <li>
+    {%- liquid
+      render 'icons.sns', name: 'facebookSquare', class: 'w-[60px] h-[60px] fill-blue'
+      render 'icons.sns', name: 'instagram', class: 'w-[60px] h-[60px] fill-orange', circleClass: 'fill-blue'
+      render 'icons.symbol', name: 'net', class: 'w-[60px] h-[60px] fill-yellow'
+      render 'icons.cinema', name: 'kachinko', class: 'w-[60px] h-[60px] fill-black'
+      render 'icons.arrow', class: 'w-[60px] h-[60px] fill-black'
+    -%}
+
+    {% render 'icons.symbol', name: 'net', class: 'w-[60px] h-[60px] fill-black' %}
+  </li>
+  <li>
+    {% render 'atoms.tag', boldClass: false, roundedClass: false, class: 'bg-orange px-[20px]', content: '特典：オリジナルポストカード' %}
+  </li>
+  <li>
+    {% render 'atoms.tag', class: 'bg-gray px-[5px]', content: 'R15+' %}
+  </li>
 </ul>
