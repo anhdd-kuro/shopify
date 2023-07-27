@@ -1,37 +1,77 @@
-{% comment %}
-  {% form 'create_customer' %}
-    {{ form.errors | default_errors }}
+{% form 'create_customer' %}
+  {{ form.errors | default_errors }}
+  <!-- デフォルトの入力フィールド -->
+  <label for="LastName" class="label--hidden">{{ 'customer.register.last_name' | t }}</label>
+  <input
+    type="text"
+    name="customer[last_name]"
+    id="LastName"
+    placeholder="{{ 'customer.register.last_name' | t }}"
+    {% if form.last_name %}
+      value="{{ form.last_name }}"
+    {% endif %}
+    autocapitalize="words"
+  >
 
-    <div class="first-name">
-      <label for="first-name">First name</label>
-      <input type="text" name="customer[first_name]">
-    </div>
+  <label for="FirstName" class="label--hidden">{{ 'customer.register.first_name' | t }}</label>
+  <input
+    type="text"
+    name="customer[first_name]"
+    id="FirstName"
+    placeholder="{{ 'customer.register.first_name' | t }}"
+    {% if form.first_name %}
+      value="{{ form.first_name }}"
+    {% endif %}
+    autocapitalize="words"
+    autofocus
+  >
 
-    <div class="last-name">
-      <label for="last-name">Last name</label>
-      <input type="text" name="customer[last_name]">
-    </div>
+  <label for="Email" class="label--hidden">{{ 'customer.register.email' | t }}</label>
+  <input
+    type="email"
+    name="customer[email]"
+    id="Email"
+    class="{% if form.errors contains 'email' %} input--error{% endif %}"
+    placeholder="{{ 'customer.register.email' | t }}"
+    {% if form.email %}
+      value="{{ form.email }}"
+    {% endif %}
+    autocorrect="off"
+    autocapitalize="off"
+  >
 
-    <label for="birthday" class="label">誕生日</label>
-    <input type="date" value="" name="customer[note][誕生日]" id="birthday">
+  <label for="CreatePassword" class="label--hidden">{{ 'customer.register.password' | t }}</label>
+  <input
+    type="password"
+    name="customer[password]"
+    id="CreatePassword"
+    class="{% if form.errors contains 'password' %} input--error{% endif %}"
+    placeholder="{{ 'customer.register.password' | t }}"
+  >
+  <!-- //End デフォルトの入力フィールド -->
 
-    <div class="email">
-      <label for="email">Email</label>
-      <input type="email" name="customer[email]">
-    </div>
+  <!-- 生年月日の取得 -->
+  <label for="birthday" class="label">お誕生日</label>
+  <input type="date" value="" name="customer[note][誕生日]" id="birthday">
+  <!-- //End 生年月日の取得 -->
 
-    {% form 'customer_address', address_type %}
-      form_content
-    {% endform %}
+  <!-- 性別の取得 -->
+  <div class="field-radio">
+    <label for="gender" class="label">性別</label>
+    <input type="radio" value="男性" name="customer[note][性別]" id="gender">男性
+    <input type="radio" value="女性" name="customer[note][性別]" id="gender">女性
+  </div>
+  <!-- //End 性別の取得 -->
 
-    <div class="password">
-      <label for="password">Password</label>
-      <input type="password" name="customer[password]">
-    </div>
+  <!-- 性別の取得 -->
+  <div class="field-radio">
+    <label for="gender" class="label">性別</label>
+    <input type="radio" value="男性" name="customer[note][性別]" id="gender">男性
+    <input type="radio" value="女性" name="customer[note][性別]" id="gender">女性
+  </div>
+  <!-- //End 性別の取得 -->
 
-    <div class="submit">
-      <input type="submit" value="Create">
-    </div>
-  {% endform %}
-{% endcomment %}
-a
+  <p>
+    <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn">
+  </p>
+{% endform %}
