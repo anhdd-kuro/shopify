@@ -1,4 +1,12 @@
-{% form 'create_customer' %}
+<form
+  method="post"
+  action="/account"
+  id="create_customer"
+  accept-charset="UTF-8"
+  data-login-with-shop-sign-up="true"
+>
+  <input type="hidden" name="form_type" value="create_customer">
+  <input type="hidden" name="utf8" value="✓">
   {{ form.errors | default_errors }}
   <!-- デフォルトの入力フィールド -->
 
@@ -13,10 +21,8 @@
       value="{{ form.last_name }}"
     {% endif %}
     autocapitalize="words"
-    x-data
-    data-error-msg="custom error message"
+    required
   >
-
   <!-- 名前 -->
   <div>
     <label for="FirstName" class="label--hidden">{{ 'customer.register.first_name' | t }}</label>
@@ -83,6 +89,38 @@
   <!-- //End DM受け取りの設定 -->
 
   <p>
-    <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn">
+    <input type="submit" value="{{ 'customer.register.submit' | t }}">
   </p>
-{% endform %}
+</form>
+{% comment %}
+  <form
+    x-data="testFunction()"
+    x-validate
+    @submit="test($validate.submit)"
+    method="post"
+    action="/account"
+    id="create_customer"
+  >
+    <input type="hidden" name="form_type" value="create_customer">
+    <input type="hidden" name="form_test" value="hogehoge">
+    <p><em>* required</em></p>
+    <div>
+      <label for="ss">Your Name *</label>
+      <input type="text" id="name" name="name[ss]" required>
+    </div>
+    <p>
+      <input type="submit" value="{{ 'customer.register.submit' | t }}">
+    </p>
+  </form>
+  <script>
+    const testFunction = () => {
+      return {
+        test(validate) {
+          validate;
+          event.preventDefault();
+          console.log('test');
+        },
+      };
+    };
+  </script>
+{% endcomment %}
