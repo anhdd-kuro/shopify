@@ -1,43 +1,12 @@
 {
   "sections": {
-    "header": {
-      "type": "header",
-      "blocks": {
-        "333838ba-9c5e-46ed-8e64-9115b4e1eb46": {
-          "type": "welcome",
-          "settings": {
-            "heading": "Welcome to our store"
-          }
-        }
-      },
-      "block_order": [
-        "333838ba-9c5e-46ed-8e64-9115b4e1eb46"
-      ],
-      "settings": {
-        "title": "Hello"
-      }
-    },
-    "collections": {
-      "type": "collections",
-      "settings": {
-        "num_collections": 5
-      }
-    },
     "mock": {
       "type": "mock",
-      "settings": {
-      }
-    },
-    "footer": {
-      "type": "footer",
       "settings": {
       }
     }
   },
   "order": [
-    "header",
-    "collections",
-    "mock",
-    "footer"
+    "mock"
   ]
 }
