@@ -1,4 +1,4 @@
-{{ customer }}
+{{ customer.value }}
 {% liquid
   # ログイン状態
   if customer
@@ -13,6 +13,9 @@
     endif
   endif
 %}
+<script>
+  console.log({{ customer.value | json }});
+</script>
 
 {% comment %} リダイレクト処理 {% endcomment %}
 {% if is_redirect_login and request.path != '/challenge' %}
