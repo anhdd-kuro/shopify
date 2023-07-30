@@ -1,12 +1,24 @@
 {
   "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+      }
+    },
     "mock": {
       "type": "mock",
+      "settings": {
+      }
+    },
+    "footer": {
+      "type": "footer",
       "settings": {
       }
     }
   },
   "order": [
-    "mock"
+    "header",
+    "mock",
+    "footer"
   ]
 }
