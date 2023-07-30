@@ -1,4 +1,4 @@
-{{ customer.value }}
+{{ customer.values }}
 {% liquid
   # ログイン状態
   if customer
@@ -14,7 +14,7 @@
   endif
 %}
 <script>
-  console.log({{ customer.value | json }});
+  console.log('customer.value',{{ customer.values | json }});
 </script>
 
 {% comment %} リダイレクト処理 {% endcomment %}
