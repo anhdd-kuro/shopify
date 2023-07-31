@@ -1,0 +1,7 @@
+addresses
+{% for address in customer.addresses %}
+  <!-- address details -->
+  {% form 'customer_address', address %}
+    <!-- form content -->
+  {% endform %}
+{% endfor %}
