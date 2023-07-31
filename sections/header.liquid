@@ -37,15 +37,15 @@
       <li>
         <a href="{{routes.account_addresses_url}}">退会</a>
       </li>
-      <li>
-        <a href="{{routes.account_recover_url}}">パスワード変更</a>
-      </li>
     {% else %}
       <li>
         <a href="{{routes.account_login_url}}">ログイン</a>
       </li>
       <li>
         <a href="{{routes.account_register_url}}">新規会員登録</a>
+      </li>
+      <li>
+        <a href="{{routes.account_recover_url}}">パスワード変更</a>
       </li>
     {% endif %}
   </ul>
