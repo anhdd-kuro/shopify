@@ -21,7 +21,7 @@
         {{ 'customer.addresses.add_new' | t }}
       </button>
       <div id="AddAddress">
-        <h2 id="AddressNewHeading">{{ 'customer.addresses.add_new' | t }}</h2>
+        <h2 class="text-[3rem]" id="AddressNewHeading">新規登録</h2>
         {%- form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading' -%}
           <div class="field">
             <input
@@ -154,6 +154,7 @@
       </div>
     </div>
 
+    <h2 class="text-[3rem]">会員情報更新</h2>
     <ul role="list">
       {%- for address in customer.addresses -%}
         <li data-address>
