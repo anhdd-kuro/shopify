@@ -625,6 +625,10 @@ html {
   bottom: 0px;
 }
 
+.isolate {
+  isolation: isolate;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -902,6 +906,10 @@ html {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .italic {
