@@ -108,6 +108,14 @@
           {{- 'templates.contact.form.comment' | t -}}
         </label>
       </div>
+      <p>
+        要件:
+        <select name="contact[要件]">
+          <option value="メールアドレスの変更">メールアドレスの変更</option>
+          <option value="退会">退会</option>
+          <option value="お問い合わせ">お問い合わせ</option>
+        </select>
+      </p>
       <div class="contact__button">
         <button type="submit" class="button">
           {{ 'templates.contact.form.send' | t }}
